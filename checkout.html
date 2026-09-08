@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Checkout - SHINE</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#08080c;
+    color:white;
+}
+
+nav{
+    height:70px;
+    padding:0 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #22222a;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.back{
+    color:#aaa;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.container{
+    width:90%;
+    max-width:550px;
+    margin:55px auto;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.title h1{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.title p{
+    color:#888;
+    font-size:14px;
+}
+
+.card{
+    background:#111117;
+    border:1px solid #25252d;
+    border-radius:18px;
+    padding:25px;
+}
+
+.product{
+    display:flex;
+    justify-content:space-between;
+    padding-bottom:20px;
+    margin-bottom:20px;
+    border-bottom:1px solid #292932;
+}
+
+.product-name{
+    font-size:19px;
+    font-weight:bold;
+}
+
+.product-price{
+    font-weight:bold;
+}
+
+label{
+    display:block;
+    color:#999;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    margin-bottom:18px;
+
+    background:#0b0b10;
+    color:white;
+
+    border:1px solid #303039;
+    border-radius:10px;
+
+    outline:none;
+}
+
+input:focus{
+    border-color:#777;
+}
+
+button{
+    width:100%;
+    padding:15px;
+
+    border:none;
+    border-radius:10px;
+
+    background:white;
+    color:black;
+
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    opacity:.85;
+}
+
+.note{
+    color:#666;
+    font-size:12px;
+    line-height:1.5;
+    margin-top:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<nav>
+
+    <div class="logo">
+        SHINE
+    </div>
+
+    <a href="index.html" class="back">
+        ← Kembali
+    </a>
+
+</nav>
+
+
+<div class="container">
+
+
+    <div class="title">
+
+        <h1>Checkout</h1>
+
+        <p>
+            Isi data Roblox kamu dengan benar.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+
+        <div class="product">
+
+            <div
+            class="product-name"
+            id="product">
+
+                Produk
+
+            </div>
+
+            <div
+            class="product-price"
+            id="price">
+
+                Rp0
+
+            </div>
+
+        </div>
+
+
+        <form id="checkoutForm">
+
+
+            <label>
+                Username Roblox
+            </label>
+
+            <input
+            type="text"
+            id="username"
+            placeholder="Contoh: Nainsan"
+            required>
+
+
+            <label>
+                User ID Roblox
+            </label>
+
+            <input
+            type="text"
+            id="userid"
+            placeholder="Contoh: 123456789"
+            required>
+
+
+            <label>
+                Nomor WhatsApp
+            </label>
+
+            <input
+            type="tel"
+            id="whatsapp"
+            placeholder="08xxxxxxxxxx"
+            required>
+
+
+            <button type="submit">
+
+                LANJUT KE PEMBAYARAN
+
+            </button>
+
+
+            <div class="note">
+
+                Jangan pernah memasukkan password Roblox.
+                SHINE tidak membutuhkan password akun Roblox.
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+/* AMBIL PRODUK DARI URL */
+
+const params =
+    new URLSearchParams(window.location.search);
+
+
+const product =
+    params.get("product") || "Produk Roblox";
+
+
+const price =
+    Number(params.get("price")) || 0;
+
+
+/* TAMPILKAN */
+
+document.getElementById("product").textContent =
+    product;
+
+
+document.getElementById("price").textContent =
+    rupiah(price);
+
+
+/* FORMAT RUPIAH */
+
+function rupiah(number){
+
+    return new Intl.NumberFormat("id-ID",{
+
+        style:"currency",
+
+        currency:"IDR",
+
+        maximumFractionDigits:0
+
+    }).format(number);
+
+}
+
+
+/* CHECKOUT */
+
+document
+.getElementById("checkoutForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+
+    const username =
+        document.getElementById("username").value.trim();
+
+
+    const userid =
+        document.getElementById("userid").value.trim();
+
+
+    const whatsapp =
+        document.getElementById("whatsapp").value.trim();
+
+
+    if(!username || !userid || !whatsapp){
+
+        alert("Lengkapi semua data terlebih dahulu.");
+
+        return;
+
+    }
+
+
+    /* SIMPAN DATA */
+
+    localStorage.setItem(
+        "shineProduct",
+        product
+    );
+
+
+    localStorage.setItem(
+        "shinePrice",
+        price
+    );
+
+
+    localStorage.setItem(
+        "shineUsername",
+        username
+    );
+
+
+    localStorage.setItem(
+        "shineUserID",
+        userid
+    );
+
+
+    localStorage.setItem(
+        "shineWhatsApp",
+        whatsapp
+    );
+
+
+    /* BUAT INVOICE */
+
+    const random =
+        Math.floor(1000 + Math.random() * 9000);
+
+
+    const invoice =
+        "SH-" +
+        new Date().getFullYear() +
+        "-" +
+        random;
+
+
+    localStorage.setItem(
+        "shineInvoice",
+        invoice
+    );
+
+
+    /* LANJUT PAYMENT */
+
+    window.location.href =
+        "payment.html";
+
+});
+
+
+</script>
+
+</body>
+</html>
