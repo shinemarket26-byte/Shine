@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Pembayaran - SHINE</title>
+
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+
+body{
+
+    font-family:Arial,sans-serif;
+
+    background:#08080c;
+
+    color:white;
+
+    min-height:100vh;
+
+}
+
+
+nav{
+
+    height:70px;
+
+    padding:0 6%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-bottom:1px solid #22222a;
+
+    background:#08080c;
+
+}
+
+
+.logo{
+
+    font-size:25px;
+
+    font-weight:800;
+
+    letter-spacing:2px;
+
+}
+
+
+.back{
+
+    color:#aaa;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+}
+
+
+.container{
+
+    width:92%;
+
+    max-width:600px;
+
+    margin:40px auto 70px;
+
+}
+
+
+.title{
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+}
+
+
+.title h1{
+
+    font-size:32px;
+
+    margin-bottom:10px;
+
+}
+
+
+.title p{
+
+    color:#888;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+}
+
+
+/* CARD */
+
+.card{
+
+    background:#111117;
+
+    border:1px solid #25252d;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    margin-bottom:18px;
+
+}
+
+
+/* ORDER */
+
+.order{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding-bottom:20px;
+
+    margin-bottom:18px;
+
+    border-bottom:1px solid #292932;
+
+}
+
+
+.product{
+
+    font-size:19px;
+
+    font-weight:bold;
+
+}
+
+
+.price{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+
+.row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    margin:13px 0;
+
+}
+
+
+.label{
+
+    color:#888;
+
+    font-size:13px;
+
+}
+
+
+.value{
+
+    font-size:13px;
+
+    text-align:right;
+
+    word-break:break-word;
+
+}
+
+
+.total{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding-top:18px;
+
+    margin-top:18px;
+
+    border-top:1px solid #292932;
+
+}
+
+
+.total-price{
+
+    font-size:24px;
+
+    font-weight:800;
+
+}
+
+
+/* QRIS */
+
+.payment-title{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    margin-bottom:8px;
+
+}
+
+
+.payment-description{
+
+    color:#888;
+
+    font-size:13px;
+
+    line-height:1.5;
+
+    margin-bottom:18px;
+
+}
+
+
+.qris-box{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:12px;
+
+    text-align:center;
+
+}
+
+
+.qris{
+
+    width:100%;
+
+    max-width:450px;
+
+    display:block;
+
+    margin:auto;
+
+}
+
+
+.qris-name{
+
+    color:#111;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    margin-top:10px;
+
+}
+
+
+.save-button{
+
+    width:100%;
+
+    padding:14px;
+
+    margin-top:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#24242c;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+.save-button:hover{
+
+    opacity:.85;
+
+}
+
+
+/* STEP */
+
+.step{
+
+    display:flex;
+
+    gap:12px;
+
+    margin:15px 0;
+
+}
+
+
+.number{
+
+    min-width:28px;
+
+    height:28px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:white;
+
+    color:black;
+
+    font-weight:bold;
+
+    font-size:13px;
+
+}
+
+
+.step-text{
+
+    color:#aaa;
+
+    font-size:13px;
+
+    line-height:1.5;
+
+}
+
+
+/* UPLOAD */
+
+.upload-box{
+
+    border:1px dashed #44444d;
+
+    border-radius:12px;
+
+    padding:22px;
+
+    text-align:center;
+
+    margin-top:18px;
+
+}
+
+
+.upload-box p{
+
+    color:#888;
+
+    font-size:13px;
+
+    margin-bottom:15px;
+
+}
+
+
+.file-input{
+
+    width:100%;
+
+    color:#aaa;
+
+    font-size:13px;
+
+}
+
+
+.preview{
+
+    display:none;
+
+    margin-top:18px;
+
+}
+
+
+.preview img{
+
+    width:100%;
+
+    max-height:400px;
+
+    object-fit:contain;
+
+    border-radius:10px;
+
+    background:#08080c;
+
+}
+
+
+/* BUTTON */
+
+.submit-button{
+
+    width:100%;
+
+    padding:16px;
+
+    margin-top:18px;
+
+    border:none;
+
+    border-radius:11px;
+
+    background:white;
+
+    color:black;
+
+    font-size:14px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+
+.submit-button:disabled{
+
+    opacity:.4;
+
+    cursor:not-allowed;
+
+}
+
+
+/* STATUS */
+
+.status{
+
+    display:none;
+
+    padding:17px;
+
+    margin-top:18px;
+
+    border-radius:12px;
+
+    background:#1a1a21;
+
+    text-align:center;
+
+}
+
+
+.status-title{
+
+    font-weight:bold;
+
+    margin-bottom:7px;
+
+}
+
+
+.status-text{
+
+    color:#999;
+
+    font-size:12px;
+
+    line-height:1.5;
+
+}
+
+
+/* WHATSAPP */
+
+.whatsapp{
+
+    display:none;
+
+    width:100%;
+
+    padding:16px;
+
+    margin-top:15px;
+
+    border-radius:11px;
+
+    background:white;
+
+    color:black;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    font-weight:bold;
+
+    font-size:14px;
+
+}
+
+
+.note{
+
+    color:#666;
+
+    font-size:11px;
+
+    line-height:1.5;
+
+    text-align:center;
+
+    margin-top:15px;
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+    .container{
+
+        margin-top:30px;
+
+    }
+
+
+    .title h1{
+
+        font-size:28px;
+
+    }
+
+
+    .card{
+
+        padding:18px;
+
+    }
+
+
+    .row{
+
+        flex-direction:column;
+
+        gap:5px;
+
+    }
+
+
+    .value{
+
+        text-align:left;
+
+    }
+
+
+    .order{
+
+        align-items:flex-start;
+
+        flex-direction:column;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- NAVBAR -->
+
+<nav>
+
+    <div class="logo">
+        SHINE
+    </div>
+
+
+    <a
+    href="checkout.html"
+    class="back">
+
+        ← Kembali
+
+    </a>
+
+</nav>
+
+
+
+<div class="container">
+
+
+    <!-- TITLE -->
+
+    <div class="title">
+
+        <h1>
+            Pembayaran
+        </h1>
+
+
+        <p>
+            Scan QRIS di bawah menggunakan
+            aplikasi pembayaran pilihan kamu.
+        </p>
+
+    </div>
+
+
+
+    <!-- DETAIL PESANAN -->
+
+    <div class="card">
+
+
+        <div class="order">
+
+            <div class="product" id="product">
+                Produk Roblox
+            </div>
+
+
+            <div class="price" id="price">
+                Rp0
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Invoice
+            </div>
+
+
+            <div
+            class="value"
+            id="invoice">
+
+                -
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                Username Roblox
+            </div>
+
+
+            <div
+            class="value"
+            id="username">
+
+                -
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                User ID Roblox
+            </div>
+
+
+            <div
+            class="value"
+            id="userid">
+
+                -
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="label">
+                WhatsApp
+            </div>
+
+
+            <div
+            class="value"
+            id="whatsapp">
+
+                -
+
+            </div>
+
+        </div>
+
+
+        <div class="total">
+
+            <span>
+                Total Pembayaran
+            </span>
+
+
+            <span
+            class="total-price"
+            id="total">
+
+                Rp0
+
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- QRIS -->
+
+    <div class="card">
+
+
+        <div class="payment-title">
+
+            Bayar dengan QRIS
+
+        </div>
+
+
+        <div class="payment-description">
+
+            Kamu bisa menggunakan aplikasi
+            yang mendukung QRIS seperti
+            GoPay, DANA, mobile banking,
+            atau aplikasi pembayaran lainnya.
+
+        </div>
+
+
+        <div class="qris-box">
+
+
+            <img
+            src="qris.png"
+            class="qris"
+            alt="QRIS SHINE">
+
+
+            <div class="qris-name">
+
+                MUHAMMAD ADITYA JUNAEDI, OTOMOTIF
+
+            </div>
+
+
+        </div>
+
+
+        <button
+        class="save-button"
+        onclick="saveQRIS()">
+
+            SIMPAN QRIS
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- CARA BAYAR -->
+
+    <div class="card">
+
+
+        <div class="payment-title">
+
+            Cara Pembayaran
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="number">
+                1
+            </div>
+
+
+            <div class="step-text">
+
+                Buka GoPay, DANA,
+                mobile banking,
+                atau aplikasi pembayaran
+                yang mendukung QRIS.
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="number">
+                2
+            </div>
+
+
+            <div class="step-text">
+
+                Scan QRIS SHINE di atas.
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="number">
+                3
+            </div>
+
+
+            <div class="step-text">
+
+                Masukkan nominal sesuai
+                total pembayaran.
+
+            </div>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="number">
+                4
+            </div>
+
+
+            <div class="step-text">
+
+                Selesaikan pembayaran
+                dan simpan screenshot
+                bukti transaksi.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- UPLOAD -->
+
+    <div class="card">
+
+
+        <div class="payment-title">
+
+            Upload Bukti Pembayaran
+
+        </div>
+
+
+        <div class="payment-description">
+
+            Setelah melakukan pembayaran,
+            upload screenshot bukti transaksi
+            di bawah.
+
+        </div>
+
+
+        <div class="upload-box">
+
+
+            <p>
+
+                Pilih screenshot bukti pembayaran
+
+            </p>
+
+
+            <input
+            type="file"
+            id="proof"
+            class="file-input"
+            accept="image/*">
+
+
+            <div
+            class="preview"
+            id="preview">
+
+                <img
+                id="previewImage"
+                alt="Preview bukti pembayaran">
+
+            </div>
+
+
+        </div>
+
+
+        <button
+        class="submit-button"
+        id="submitButton"
+        onclick="submitProof()"
+        disabled>
+
+            KIRIM BUKTI PEMBAYARAN
+
+        </button>
+
+
+        <div
+        class="status"
+        id="status">
+
+
+            <div class="status-title">
+
+                ⏳ Menunggu Verifikasi
+
+            </div>
+
+
+            <div class="status-text">
+
+                Bukti pembayaran sudah diterima.
+                Silakan kirim detail pesanan
+                melalui WhatsApp agar admin
+                dapat melakukan verifikasi.
+
+            </div>
+
+
+        </div>
+
+
+        <a
+        href="#"
+        id="whatsappButton"
+        class="whatsapp">
+
+            KIRIM INVOICE KE WHATSAPP
+
+        </a>
+
+
+        <div class="note">
+
+            Upload bukti pembayaran bukan berarti
+            pembayaran sudah otomatis terverifikasi.
+            Admin akan mengecek transaksi terlebih dahulu.
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =====================================
+   DATA PESANAN
+===================================== */
+
+
+const product =
+    localStorage.getItem("shineProduct") || "-";
+
+
+const price =
+    Number(
+        localStorage.getItem("shinePrice")
+    ) || 0;
+
+
+const username =
+    localStorage.getItem("shineUsername") || "-";
+
+
+const userid =
+    localStorage.getItem("shineUserID") || "-";
+
+
+const whatsapp =
+    localStorage.getItem("shineWhatsApp") || "-";
+
+
+const invoice =
+    localStorage.getItem("shineInvoice") || "-";
+
+
+
+/* =====================================
+   FORMAT RUPIAH
+===================================== */
+
+
+function rupiah(number){
+
+    return new Intl.NumberFormat(
+        "id-ID",
+        {
+            style:"currency",
+            currency:"IDR",
+            maximumFractionDigits:0
+        }
+    ).format(number);
+
+}
+
+
+
+/* =====================================
+   TAMPILKAN DATA
+===================================== */
+
+
+document
+.getElementById("product")
+.textContent = product;
+
+
+document
+.getElementById("price")
+.textContent = rupiah(price);
+
+
+document
+.getElementById("invoice")
+.textContent = invoice;
+
+
+document
+.getElementById("username")
+.textContent = username;
+
+
+document
+.getElementById("userid")
+.textContent = userid;
+
+
+document
+.getElementById("whatsapp")
+.textContent = whatsapp;
+
+
+document
+.getElementById("total")
+.textContent = rupiah(price);
+
+
+
+/* =====================================
+   UPLOAD BUKTI
+===================================== */
+
+
+const proofInput =
+    document.getElementById("proof");
+
+
+const submitButton =
+    document.getElementById("submitButton");
+
+
+const preview =
+    document.getElementById("preview");
+
+
+const previewImage =
+    document.getElementById("previewImage");
+
+
+
+proofInput.addEventListener(
+    "change",
+    function(){
+
+        const file =
+            proofInput.files[0];
+
+
+        if(!file){
+
+            submitButton.disabled = true;
+
+            preview.style.display = "none";
+
+            return;
+
+        }
+
+
+        /* Pastikan file gambar */
+
+        if(!file.type.startsWith("image/")){
+
+            alert(
+                "File harus berupa gambar."
+            );
+
+            proofInput.value = "";
+
+            submitButton.disabled = true;
+
+            preview.style.display = "none";
+
+            return;
+
+        }
+
+
+        /* Batas 5 MB */
+
+        if(file.size > 5 * 1024 * 1024){
+
+            alert(
+                "Ukuran gambar maksimal 5 MB."
+            );
+
+            proofInput.value = "";
+
+            submitButton.disabled = true;
+
+            preview.style.display = "none";
+
+            return;
+
+        }
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(event){
+
+                previewImage.src =
+                    event.target.result;
+
+                preview.style.display =
+                    "block";
+
+            };
+
+
+        reader.readAsDataURL(file);
+
+
+        submitButton.disabled = false;
+
+    }
+);
+
+
+
+/* =====================================
+   SIMPAN QRIS
+===================================== */
+
+
+function saveQRIS(){
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = "qris.png";
+
+    link.download = "SHINE-QRIS.png";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    document.body.removeChild(link);
+
+}
+
+
+
+/* =====================================
+   KIRIM BUKTI
+===================================== */
+
+
+function submitProof(){
+
+    const file =
+        proofInput.files[0];
+
+
+    if(!file){
+
+        alert(
+            "Silakan upload bukti pembayaran terlebih dahulu."
+        );
+
+        return;
+
+    }
+
+
+    /*
+    
+    STATUS:
+
+    WAITING_VERIFICATION
+
+    BUKAN PAID.
+
+    Karena website belum terhubung
+    langsung dengan sistem pembayaran.
+
+    */
+
+
+    localStorage.setItem(
+        "shinePaymentStatus",
+        "WAITING_VERIFICATION"
+    );
+
+
+    localStorage.setItem(
+        "shinePaymentMethod",
+        "QRIS"
+    );
+
+
+    localStorage.setItem(
+        "shineProofName",
+        file.name
+    );
+
+
+    /* =================================
+       BUAT PESAN WHATSAPP
+    ================================= */
+
+
+    const phone =
+        "6285894428443";
+
+
+    const message =
+`Hallo SHINE 👋
+
+Saya sudah melakukan pembayaran.
+
+Invoice: ${invoice}
+Produk: ${product}
+Username Roblox: ${username}
+User ID Roblox: ${userid}
+Total: ${rupiah(price)}
+Metode Pembayaran: QRIS
+
+Saya sudah mengupload bukti pembayaran.
+
+Mohon dilakukan verifikasi pembayaran dan diproses pesanannya.
+
+Nama file bukti: ${file.name}`;
+
+
+    const whatsappURL =
+        "https://wa.me/" +
+        phone +
+        "?text=" +
+        encodeURIComponent(message);
+
+
+    /* =================================
+       TAMPILKAN STATUS
+    ================================= */
+
+
+    document
+    .getElementById("status")
+    .style.display = "block";
+
+
+    const whatsappButton =
+        document.getElementById(
+            "whatsappButton"
+        );
+
+
+    whatsappButton.href =
+        whatsappURL;
+
+
+    whatsappButton.style.display =
+        "block";
+
+
+    submitButton.disabled = true;
+
+
+    submitButton.textContent =
+        "BUKTI SUDAH DIKIRIM";
+
+
+    /* Scroll ke WhatsApp */
+
+    setTimeout(function(){
+
+        whatsappButton.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
+    },300);
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
