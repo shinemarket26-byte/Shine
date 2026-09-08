@@ -1,201 +1,839 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nainsan Store - Admin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nainsan Store — Admin</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #08090d;
-            color: white;
-            min-height: 100vh;
-        }
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Inter,Arial,sans-serif;
+}
 
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 30px 20px;
-        }
+body{
+    background:#0b0d12;
+    color:#fff;
+    min-height:100vh;
+}
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
+button,input,select{
+    font:inherit;
+}
 
-        .logo {
-            font-size: 25px;
-            font-weight: 800;
-        }
+button{
+    cursor:pointer;
+    border:0;
+}
 
-        .badge {
-            background: #18251c;
-            color: #4ade80;
-            padding: 8px 14px;
-            border-radius: 999px;
-            font-size: 13px;
-        }
+.hidden{
+    display:none!important;
+}
 
-        .login {
-            max-width: 420px;
-            margin: 80px auto;
-            background: #11131a;
-            border: 1px solid #242733;
-            border-radius: 20px;
-            padding: 30px;
-        }
+/* LOGIN */
+#loginPage{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:
+        radial-gradient(circle at top,#242942 0,#0b0d12 45%);
+}
 
-        h1 {
-            margin-bottom: 8px;
-        }
+.login-box{
+    width:100%;
+    max-width:420px;
+    background:#141720;
+    border:1px solid #292d3a;
+    border-radius:24px;
+    padding:30px;
+    box-shadow:0 20px 60px #0008;
+}
 
-        p {
-            color: #9297a7;
-            margin-bottom: 25px;
-        }
+.logo{
+    font-size:28px;
+    font-weight:900;
+    margin-bottom:6px;
+}
 
-        input {
-            width: 100%;
-            padding: 14px;
-            margin-bottom: 14px;
-            border-radius: 10px;
-            border: 1px solid #292d3a;
-            background: #08090d;
-            color: white;
-            outline: none;
-        }
+.logo span{
+    color:#7c5cff;
+}
 
-        button {
-            width: 100%;
-            padding: 14px;
-            border: 0;
-            border-radius: 10px;
-            background: #fff;
-            color: #000;
-            font-weight: 700;
-            cursor: pointer;
-        }
+.subtitle{
+    color:#8e95a7;
+    margin-bottom:28px;
+}
 
-        #dashboard {
-            display: none;
-        }
+label{
+    display:block;
+    color:#aeb4c4;
+    font-size:13px;
+    margin:15px 0 7px;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+input,select{
+    width:100%;
+    padding:13px 14px;
+    background:#0d0f15;
+    color:white;
+    border:1px solid #303543;
+    border-radius:12px;
+    outline:none;
+}
 
-        .card {
-            background: #11131a;
-            border: 1px solid #242733;
-            padding: 20px;
-            border-radius: 15px;
-        }
+input:focus,select:focus{
+    border-color:#7c5cff;
+}
 
-        .card small {
-            color: #9297a7;
-        }
+.btn{
+    padding:12px 16px;
+    border-radius:12px;
+    font-weight:800;
+    color:white;
+    background:#7c5cff;
+}
 
-        .card strong {
-            display: block;
-            font-size: 28px;
-            margin-top: 8px;
-        }
+.btn:hover{
+    filter:brightness(1.1);
+}
 
-        .orders {
-            background: #11131a;
-            border: 1px solid #242733;
-            border-radius: 15px;
-            padding: 20px;
-        }
+.btn-danger{
+    background:#e5484d;
+}
 
-        .order {
-            padding: 16px 0;
-            border-bottom: 1px solid #242733;
-        }
+.btn-green{
+    background:#20a46b;
+}
 
-        .order:last-child {
-            border-bottom: 0;
-        }
+.btn-gray{
+    background:#292e3b;
+}
 
-        .status {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 5px 10px;
-            border-radius: 999px;
-            background: #25202b;
-            color: #fbbf24;
-            font-size: 12px;
-        }
+/* ADMIN */
+#adminPage{
+    min-height:100vh;
+}
 
-        @media(max-width:700px) {
-            .cards {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+.topbar{
+    height:70px;
+    padding:0 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #252936;
+    background:#11131a;
+    position:sticky;
+    top:0;
+    z-index:10;
+}
+
+.top-title{
+    font-size:20px;
+    font-weight:900;
+}
+
+.top-title span{
+    color:#7c5cff;
+}
+
+.admin-email{
+    color:#8f96a8;
+    font-size:12px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:25px 18px 50px;
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:#141720;
+    border:1px solid #292d3a;
+    border-radius:18px;
+    padding:20px;
+}
+
+.stat-title{
+    color:#8f96a8;
+    font-size:13px;
+}
+
+.stat-value{
+    font-size:28px;
+    font-weight:900;
+    margin-top:8px;
+}
+
+/* TABS */
+.tabs{
+    display:flex;
+    gap:8px;
+    overflow:auto;
+    margin-bottom:20px;
+}
+
+.tab{
+    white-space:nowrap;
+    background:#171a23;
+    color:#aeb4c4;
+    padding:12px 18px;
+    border-radius:12px;
+    font-weight:800;
+}
+
+.tab.active{
+    background:#7c5cff;
+    color:#fff;
+}
+
+/* SECTION */
+.section{
+    background:#141720;
+    border:1px solid #292d3a;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.section-head{
+    padding:18px;
+    border-bottom:1px solid #292d3a;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.section-title{
+    font-size:18px;
+    font-weight:900;
+}
+
+.section-body{
+    padding:18px;
+}
+
+/* TABLE */
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:700px;
+}
+
+th,td{
+    padding:14px 10px;
+    border-bottom:1px solid #292d3a;
+    text-align:left;
+}
+
+th{
+    color:#8f96a8;
+    font-size:12px;
+    text-transform:uppercase;
+}
+
+td{
+    font-size:14px;
+}
+
+.badge{
+    display:inline-flex;
+    padding:6px 9px;
+    border-radius:999px;
+    font-size:11px;
+    font-weight:900;
+}
+
+.ready{
+    background:#123b2a;
+    color:#48e39b;
+}
+
+.habis{
+    background:#3c181b;
+    color:#ff7176;
+}
+
+.pending{
+    background:#3b3212;
+    color:#ffd84d;
+}
+
+.paid{
+    background:#123b2a;
+    color:#48e39b;
+}
+
+.completed{
+    background:#153a42;
+    color:#4ddbea;
+}
+
+/* PRODUCT CARD */
+.product-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.product{
+    border:1px solid #2b3040;
+    background:#10131a;
+    border-radius:16px;
+    padding:17px;
+}
+
+.product-top{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+}
+
+.product-name{
+    font-weight:900;
+}
+
+.product-price{
+    color:#7c5cff;
+    font-weight:900;
+    margin-top:5px;
+}
+
+.stock-box{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:18px;
+}
+
+.stock-number{
+    font-size:25px;
+    font-weight:900;
+    min-width:45px;
+    text-align:center;
+}
+
+.stock-btn{
+    width:38px;
+    height:38px;
+    border-radius:10px;
+    background:#292e3b;
+    color:#fff;
+    font-size:20px;
+    font-weight:900;
+}
+
+.product-actions{
+    display:flex;
+    gap:8px;
+    margin-top:15px;
+}
+
+.product-actions button{
+    flex:1;
+}
+
+/* MODAL */
+.modal{
+    position:fixed;
+    inset:0;
+    background:#000b;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:100;
+}
+
+.modal-box{
+    width:100%;
+    max-width:500px;
+    background:#151821;
+    border:1px solid #303543;
+    border-radius:22px;
+    padding:22px;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.close{
+    width:35px;
+    height:35px;
+    border-radius:10px;
+    background:#292e3b;
+    color:#fff;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.form-actions{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.form-actions button{
+    flex:1;
+}
+
+/* TOAST */
+#toast{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    background:#fff;
+    color:#111;
+    padding:14px 18px;
+    border-radius:12px;
+    font-weight:800;
+    transform:translateY(100px);
+    opacity:0;
+    transition:.25s;
+    z-index:999;
+}
+
+#toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .product-list{
+        grid-template-columns:1fr;
+    }
+
+    .admin-email{
+        display:none;
+    }
+}
+
+@media(max-width:500px){
+    .stats{
+        gap:9px;
+    }
+
+    .stat{
+        padding:14px;
+    }
+
+    .stat-value{
+        font-size:22px;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<div id="loginPage" class="login">
-    <h1>Admin Panel</h1>
-    <p>Nainsan Store Management</p>
+<!-- LOGIN -->
+<div id="loginPage">
 
-    <input id="username" type="text" placeholder="Username">
-    <input id="password" type="password" placeholder="Password">
+    <div class="login-box">
 
-    <button onclick="login()">MASUK ADMIN</button>
+        <div class="logo">
+            Nainsan <span>Store</span>
+        </div>
+
+        <div class="subtitle">
+            Admin Dashboard
+        </div>
+
+        <form id="loginForm">
+
+            <label>Email Admin</label>
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="admin@email.com"
+                required
+            >
+
+            <label>Password</label>
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="••••••••"
+                required
+            >
+
+            <button
+                class="btn"
+                style="width:100%;margin-top:20px"
+                type="submit"
+            >
+                LOGIN ADMIN
+            </button>
+
+        </form>
+
+    </div>
+
 </div>
 
 
-<div id="dashboard">
+<!-- ADMIN -->
+<div id="adminPage" class="hidden">
 
-    <div class="container">
+    <header class="topbar">
 
-        <div class="header">
-            <div class="logo">Nainsan Store Admin</div>
-            <div class="badge">ADMIN ONLINE</div>
+        <div class="top-title">
+            Nainsan <span>Admin</span>
         </div>
 
-        <div class="cards">
+        <div style="display:flex;align-items:center;gap:12px">
 
-            <div class="card">
-                <small>Total Order</small>
-                <strong id="totalOrder">0</strong>
+            <div class="admin-email" id="adminEmail">
+                -
             </div>
 
-            <div class="card">
-                <small>Menunggu Pembayaran</small>
-                <strong id="waitingOrder">0</strong>
-            </div>
-
-            <div class="card">
-                <small>Selesai</small>
-                <strong id="completedOrder">0</strong>
-            </div>
+            <button
+                class="btn btn-danger"
+                onclick="logout()"
+            >
+                Logout
+            </button>
 
         </div>
 
+    </header>
 
-        <div class="orders">
 
-            <h2>Order Terbaru</h2>
+    <main class="container">
 
-            <div id="orderList" style="margin-top:15px;">
-                Belum ada order.
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-title">
+                    Total Produk
+                </div>
+                <div class="stat-value" id="statProducts">
+                    0
+                </div>
             </div>
+
+            <div class="stat">
+                <div class="stat-title">
+                    Total Stok
+                </div>
+                <div class="stat-value" id="statStock">
+                    0
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">
+                    Akun Inventory
+                </div>
+                <div class="stat-value" id="statAccounts">
+                    0
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">
+                    Order
+                </div>
+                <div class="stat-value" id="statOrders">
+                    0
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- TABS -->
+
+        <div class="tabs">
+
+            <button
+                class="tab active"
+                onclick="showTab('products',this)"
+            >
+                📦 Produk & Stok
+            </button>
+
+            <button
+                class="tab"
+                onclick="showTab('accounts',this)"
+            >
+                👤 Akun Roblox
+            </button>
+
+            <button
+                class="tab"
+                onclick="showTab('orders',this)"
+            >
+                🧾 Orders
+            </button>
+
+        </div>
+
+
+        <!-- PRODUCTS -->
+
+        <section
+            id="productsTab"
+            class="section"
+        >
+
+            <div class="section-head">
+
+                <div class="section-title">
+                    Produk & Stok
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="openProductModal()"
+                >
+                    + Produk
+                </button>
+
+            </div>
+
+            <div class="section-body">
+
+                <div
+                    id="productList"
+                    class="product-list"
+                >
+                    Loading...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ACCOUNTS -->
+
+        <section
+            id="accountsTab"
+            class="section hidden"
+        >
+
+            <div class="section-head">
+
+                <div class="section-title">
+                    Inventory Akun Roblox
+                </div>
+
+                <button
+                    class="btn"
+                    onclick="openAccountModal()"
+                >
+                    + Tambah Akun
+                </button>
+
+            </div>
+
+            <div class="section-body">
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Produk</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="accountTable">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ORDERS -->
+
+        <section
+            id="ordersTab"
+            class="section hidden"
+        >
+
+            <div class="section-head">
+
+                <div class="section-title">
+                    Order Masuk
+                </div>
+
+                <button
+                    class="btn btn-gray"
+                    onclick="loadAll()"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+            <div class="section-body">
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Invoice</th>
+                                <th>Produk</th>
+                                <th>Username</th>
+                                <th>Total</th>
+                                <th>Pembayaran</th>
+                                <th>Status</th>
+                                <th>Tanggal</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="orderTable">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- PRODUCT MODAL -->
+
+<div
+    id="productModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h2 id="productModalTitle">
+                Tambah Produk
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeModal('productModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <input
+            type="hidden"
+            id="productId"
+        >
+
+        <label>Nama Produk</label>
+
+        <input
+            id="productName"
+            placeholder="Contoh: 100 Robux"
+        >
+
+        <div class="form-row">
+
+            <div>
+
+                <label>Harga</label>
+
+                <input
+                    type="number"
+                    id="productPrice"
+                    placeholder="15000"
+                >
+
+            </div>
+
+            <div>
+
+                <label>Stok</label>
+
+                <input
+                    type="number"
+                    id="productStock"
+                    value="1"
+                    min="0"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="form-actions">
+
+            <button
+                class="btn btn-gray"
+                onclick="closeModal('productModal')"
+            >
+                Batal
+            </button>
+
+            <button
+                class="btn"
+                onclick="saveProduct()"
+            >
+                Simpan
+            </button>
 
         </div>
 
@@ -204,111 +842,1294 @@
 </div>
 
 
+<!-- ACCOUNT MODAL -->
+
+<div
+    id="accountModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <h2 id="accountModalTitle">
+                Tambah Akun
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeModal('accountModal')"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <input
+            type="hidden"
+            id="accountId"
+        >
+
+        <label>Produk</label>
+
+        <select id="accountProduct"></select>
+
+        <label>Username Roblox</label>
+
+        <input
+            id="accountUsername"
+            placeholder="Username"
+        >
+
+        <label>Password Roblox</label>
+
+        <input
+            id="accountPassword"
+            placeholder="Password"
+        >
+
+        <label>Status</label>
+
+        <select id="accountStatus">
+
+            <option value="AVAILABLE">
+                AVAILABLE
+            </option>
+
+            <option value="SOLD">
+                SOLD
+            </option>
+
+        </select>
+
+        <div class="form-actions">
+
+            <button
+                class="btn btn-gray"
+                onclick="closeModal('accountModal')"
+            >
+                Batal
+            </button>
+
+            <button
+                class="btn"
+                onclick="saveAccount()"
+            >
+                Simpan
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
 <script>
 
-function login() {
+/* =====================================================
+   SUPABASE CONFIG
+   ===================================================== */
 
-    const username =
-        document.getElementById("username").value;
+const SUPABASE_URL =
+    "https://ncfwwmmxjrqcehchdeyn.supabase.co";
+
+const SUPABASE_KEY =
+    "ISI_PUBLISHABLE_KEY_LO_DI_SINI";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================================
+   GLOBAL DATA
+   ===================================================== */
+
+let products = [];
+let accounts = [];
+let orders = [];
+
+
+/* =====================================================
+   TOAST
+   ===================================================== */
+
+function toast(message){
+
+    const el = document.getElementById("toast");
+
+    el.textContent = message;
+
+    el.classList.add("show");
+
+    setTimeout(()=>{
+        el.classList.remove("show");
+    },2500);
+}
+
+
+/* =====================================================
+   AUTH CHECK
+   ===================================================== */
+
+async function checkAuth(){
+
+    const {
+        data:{
+            session
+        }
+    } = await supabaseClient.auth.getSession();
+
+    if(session){
+
+        document
+            .getElementById("loginPage")
+            .classList.add("hidden");
+
+        document
+            .getElementById("adminPage")
+            .classList.remove("hidden");
+
+        document
+            .getElementById("adminEmail")
+            .textContent =
+            session.user.email;
+
+        await loadAll();
+
+    }else{
+
+        document
+            .getElementById("loginPage")
+            .classList.remove("hidden");
+
+        document
+            .getElementById("adminPage")
+            .classList.add("hidden");
+
+    }
+}
+
+
+/* =====================================================
+   LOGIN
+   ===================================================== */
+
+document
+.getElementById("loginForm")
+.addEventListener("submit",async function(e){
+
+    e.preventDefault();
+
+    const email =
+        document.getElementById("loginEmail").value.trim();
 
     const password =
-        document.getElementById("password").value;
+        document.getElementById("loginPassword").value;
 
-    /*
-       LOGIN SEMENTARA
+    const {
+        error
+    } =
+    await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+    });
 
-       NANTI KITA GANTI DENGAN
-       SUPABASE AUTH AGAR AMAN.
-    */
+    if(error){
 
-    if (
-        username === "admin" &&
-        password === "admin123"
-    ) {
+        toast("Login gagal: " + error.message);
 
-        document.getElementById("loginPage").style.display =
-            "none";
+        return;
+    }
 
-        document.getElementById("dashboard").style.display =
-            "block";
+    toast("Login berhasil!");
 
-        loadOrders();
+    await checkAuth();
+
+});
+
+
+/* =====================================================
+   LOGOUT
+   ===================================================== */
+
+async function logout(){
+
+    await supabaseClient.auth.signOut();
+
+    location.reload();
+
+}
+
+
+/* =====================================================
+   LOAD EVERYTHING
+   ===================================================== */
+
+async function loadAll(){
+
+    await Promise.all([
+        loadProducts(),
+        loadAccounts(),
+        loadOrders()
+    ]);
+
+    updateStats();
+
+}
+
+
+/* =====================================================
+   PRODUCTS
+   ===================================================== */
+
+async function loadProducts(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("products")
+        .select("*")
+        .order("name");
+
+    if(error){
+
+        toast("Produk gagal dimuat: " + error.message);
+
+        console.error(error);
+
+        return;
+    }
+
+    products = data || [];
+
+    renderProducts();
+
+    fillProductSelect();
+
+}
+
+
+/* =====================================================
+   RENDER PRODUCTS
+   ===================================================== */
+
+function renderProducts() {
+    const tbody = document.getElementById("productTableBody");
+
+    if (!products.length) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty">
+                    Belum ada produk.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    tbody.innerHTML = products.map(product => {
+        const stock = Number(product.stock || 0);
+        const ready = stock > 0;
+
+        return `
+            <tr>
+                <td>
+                    <strong>${escapeHTML(product.name)}</strong>
+                </td>
+
+                <td>
+                    Rp ${formatNumber(product.price)}
+                </td>
+
+                <td>
+                    <span class="stock-number">
+                        ${stock}
+                    </span>
+                </td>
+
+                <td>
+                    <span class="status ${ready ? "ready" : "soldout"}">
+                        ${ready ? "READY" : "HABIS"}
+                    </span>
+                </td>
+
+                <td>
+                    ${escapeHTML(product.category || "-")}
+                </td>
+
+                <td>
+                    <div class="actions">
+
+                        <button
+                            class="btn-small plus"
+                            onclick="changeStock('${product.id}', 1)"
+                        >
+                            +1
+                        </button>
+
+                        <button
+                            class="btn-small minus"
+                            onclick="changeStock('${product.id}', -1)"
+                        >
+                            -1
+                        </button>
+
+                        <button
+                            class="btn-small edit"
+                            onclick="editProduct('${product.id}')"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="btn-small delete"
+                            onclick="deleteProduct('${product.id}')"
+                        >
+                            Hapus
+                        </button>
+
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join("");
+}
+
+
+// ========================================
+// STOCK
+// ========================================
+
+async function changeStock(id, amount) {
+    const product = products.find(p => p.id === id);
+
+    if (!product) {
+        alert("Produk tidak ditemukan.");
+        return;
+    }
+
+    const newStock = Math.max(
+        0,
+        Number(product.stock || 0) + amount
+    );
+
+    const { error } = await supabase
+        .from("products")
+        .update({
+            stock: newStock
+        })
+        .eq("id", id);
+
+    if (error) {
+        console.error(error);
+        alert("Gagal mengubah stok.");
+        return;
+    }
+
+    await loadProducts();
+}
+
+
+// ========================================
+// LOAD PRODUCTS
+// ========================================
+
+async function loadProducts() {
+    const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
+
+    if (error) {
+        console.error(error);
+        alert("Gagal mengambil data produk.");
+        return;
+    }
+
+    products = data || [];
+
+    renderProducts();
+    updateDashboard();
+}
+
+
+// ========================================
+// PRODUCT MODAL
+// ========================================
+
+function openProductModal(id = null) {
+    const modal = document.getElementById("productModal");
+    const form = document.getElementById("productForm");
+
+    if (!modal || !form) {
+        alert("Modal produk belum tersedia.");
+        return;
+    }
+
+    form.reset();
+
+    document.getElementById("productId").value = "";
+
+    if (id) {
+        const product = products.find(
+            p => p.id === id
+        );
+
+        if (!product) {
+            alert("Produk tidak ditemukan.");
+            return;
+        }
+
+        document.getElementById("productId").value =
+            product.id;
+
+        document.getElementById("productName").value =
+            product.name;
+
+        document.getElementById("productPrice").value =
+            product.price;
+
+        document.getElementById("productStock").value =
+            product.stock;
+
+        document.getElementById("productCategory").value =
+            product.category || "";
+
+        document.getElementById("productActive").checked =
+            product.active !== false;
+
+        document.getElementById("productModalTitle").textContent =
+            "Edit Produk";
 
     } else {
 
-        alert("Username atau password salah!");
+        document.getElementById("productModalTitle").textContent =
+            "Tambah Produk";
 
+        document.getElementById("productActive").checked =
+            true;
     }
 
+    modal.classList.add("show");
 }
 
 
-function loadOrders() {
+function closeProductModal() {
+    const modal =
+        document.getElementById("productModal");
 
-    const orders =
-        JSON.parse(
-            localStorage.getItem("nainsan_invoices") || "[]"
+    if (modal) {
+        modal.classList.remove("show");
+    }
+}
+
+
+// ========================================
+// SAVE PRODUCT
+// ========================================
+
+async function saveProduct(event) {
+    event.preventDefault();
+
+    const id =
+        document.getElementById("productId").value.trim();
+
+    const name =
+        document.getElementById("productName").value.trim();
+
+    const price =
+        Number(
+            document.getElementById("productPrice").value
         );
 
-    document.getElementById("totalOrder").innerText =
-        orders.length;
+    const stock =
+        Number(
+            document.getElementById("productStock").value
+        );
 
-    document.getElementById("waitingOrder").innerText =
-        orders.filter(
-            o => o.status === "WAITING_PAYMENT"
-        ).length;
+    const category =
+        document.getElementById("productCategory").value.trim();
 
-    document.getElementById("completedOrder").innerText =
-        orders.filter(
-            o => o.status === "COMPLETED"
-        ).length;
+    const active =
+        document.getElementById("productActive").checked;
 
-
-    const list =
-        document.getElementById("orderList");
-
-    if (!orders.length) {
-
-        list.innerHTML = "Belum ada order.";
-
+    if (!name) {
+        alert("Nama produk wajib diisi.");
         return;
+    }
+
+    if (price < 0) {
+        alert("Harga tidak boleh minus.");
+        return;
+    }
+
+    if (stock < 0) {
+        alert("Stok tidak boleh minus.");
+        return;
+    }
+
+    const payload = {
+        name: name,
+        price: price,
+        stock: stock,
+        category: category,
+        active: active
+    };
+
+    let result;
+
+    if (id) {
+
+        result = await supabase
+            .from("products")
+            .update(payload)
+            .eq("id", id);
+
+    } else {
+
+        result = await supabase
+            .from("products")
+            .insert(payload);
 
     }
 
+    if (result.error) {
+        console.error(result.error);
 
-    list.innerHTML = orders
-        .slice()
-        .reverse()
-        .map(order => `
+        alert(
+            "Gagal menyimpan produk: " +
+            result.error.message
+        );
 
-            <div class="order">
+        return;
+    }
 
-                <strong>
-                    ${order.invoice || "-"}
-                </strong>
+    alert(
+        id
+            ? "Produk berhasil diperbarui!"
+            : "Produk berhasil ditambahkan!"
+    );
 
-                <br>
+    closeProductModal();
 
-                ${order.productName || "-"}
-
-                <br>
-
-                ${order.total || "-"}
-
-                <br>
-
-                <span class="status">
-                    ${order.status || "UNKNOWN"}
-                </span>
-
-            </div>
-
-        `)
-        .join("");
-
+    await loadProducts();
 }
+
+
+function editProduct(id) {
+    openProductModal(id);
+}
+
+
+// ========================================
+// DELETE PRODUCT
+// ========================================
+
+async function deleteProduct(id) {
+    const product = products.find(
+        p => p.id === id
+    );
+
+    if (!product) {
+        alert("Produk tidak ditemukan.");
+        return;
+    }
+
+    const confirmDelete = confirm(
+        `Yakin ingin menghapus "${product.name}"?`
+    );
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    const { error } = await supabase
+        .from("products")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        console.error(error);
+
+        alert(
+            "Produk gagal dihapus: " +
+            error.message
+        );
+
+        return;
+    }
+
+    await loadProducts();
+}
+
+
+// ========================================
+// ROBLOX ACCOUNTS
+// ========================================
+
+async function loadAccounts() {
+    const { data, error } = await supabase
+        .from("roblox_accounts")
+        .select(`
+            *,
+            products (
+                name
+            )
+        `)
+        .order("created_at", {
+            ascending: false
+        });
+
+    if (error) {
+        console.error(error);
+        alert("Gagal mengambil akun Roblox.");
+        return;
+    }
+
+    accounts = data || [];
+
+    renderAccounts();
+}
+
+
+function renderAccounts() {
+    const tbody =
+        document.getElementById("accountTableBody");
+
+    if (!tbody) return;
+
+    if (!accounts.length) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty">
+                    Belum ada akun Roblox.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    tbody.innerHTML = accounts.map(account => {
+
+        const available =
+            account.status === "AVAILABLE";
+
+        return `
+            <tr>
+
+                <td>
+                    ${escapeHTML(
+                        account.products?.name || "-"
+                    )}
+                </td>
+
+                <td>
+                    <strong>
+                        ${escapeHTML(
+                            account.username
+                        )}
+                    </strong>
+                </td>
+
+                <td>
+                    ••••••••
+                </td>
+
+                <td>
+                    <span class="status ${
+                        available
+                            ? "ready"
+                            : "soldout"
+                    }">
+                        ${escapeHTML(
+                            account.status || "-"
+                        )}
+                    </span>
+                </td>
+
+                <td>
+                    ${escapeHTML(
+                        account.note || "-"
+                    )}
+                </td>
+
+                <td>
+                    <div class="actions">
+
+                        <button
+                            class="btn-small edit"
+                            onclick="editAccount('${account.id}')"
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            class="btn-small delete"
+                            onclick="deleteAccount('${account.id}')"
+                        >
+                            Hapus
+                        </button>
+
+                    </div>
+                </td>
+
+            </tr>
+        `;
+
+    }).join("");
+}
+
+
+// ========================================
+// ACCOUNT MODAL
+// ========================================
+
+function openAccountModal(id = null) {
+    const modal =
+        document.getElementById("accountModal");
+
+    const form =
+        document.getElementById("accountForm");
+
+    if (!modal || !form) {
+        alert("Modal akun belum tersedia.");
+        return;
+    }
+
+    form.reset();
+
+    document.getElementById("accountId").value = "";
+
+    loadProductOptions();
+
+    if (id) {
+
+        const account =
+            accounts.find(
+                a => a.id === id
+            );
+
+        if (!account) return;
+
+        document.getElementById("accountId").value =
+            account.id;
+
+        document.getElementById("accountProduct").value =
+            account.product_id;
+
+        document.getElementById("accountUsername").value =
+            account.username;
+
+        document.getElementById("accountPassword").value =
+            account.password;
+
+        document.getElementById("accountNote").value =
+            account.note || "";
+
+        document.getElementById("accountStatus").value =
+            account.status || "AVAILABLE";
+
+        document.getElementById("accountModalTitle").textContent =
+            "Edit Akun Roblox";
+
+    } else {
+
+        document.getElementById("accountModalTitle").textContent =
+            "Tambah Akun Roblox";
+    }
+
+    modal.classList.add("show");
+}
+
+
+function closeAccountModal() {
+    const modal =
+        document.getElementById("accountModal");
+
+    if (modal) {
+        modal.classList.remove("show");
+    }
+}
+
+
+function loadProductOptions() {
+    const select =
+        document.getElementById("accountProduct");
+
+    if (!select) return;
+
+    select.innerHTML = products.map(product => `
+        <option value="${product.id}">
+            ${escapeHTML(product.name)}
+        </option>
+    `).join("");
+        }
+
+    // ========================================
+// SAVE ACCOUNT
+// ========================================
+
+async function saveAccount(event) {
+    event.preventDefault();
+
+    const id =
+        document.getElementById("accountId").value.trim();
+
+    const product_id =
+        document.getElementById("accountProduct").value;
+
+    const username =
+        document.getElementById("accountUsername").value.trim();
+
+    const password =
+        document.getElementById("accountPassword").value.trim();
+
+    const note =
+        document.getElementById("accountNote").value.trim();
+
+    const status =
+        document.getElementById("accountStatus").value;
+
+    if (!product_id || !username || !password) {
+        alert(
+            "Produk, username, dan password wajib diisi."
+        );
+        return;
+    }
+
+    const payload = {
+        product_id,
+        username,
+        password,
+        note,
+        status
+    };
+
+    let result;
+
+    if (id) {
+
+        result = await supabase
+            .from("roblox_accounts")
+            .update(payload)
+            .eq("id", id);
+
+    } else {
+
+        result = await supabase
+            .from("roblox_accounts")
+            .insert(payload);
+
+    }
+
+    if (result.error) {
+        console.error(result.error);
+
+        alert(
+            "Gagal menyimpan akun: " +
+            result.error.message
+        );
+
+        return;
+    }
+
+    alert("Akun berhasil disimpan!");
+
+    closeAccountModal();
+
+    await loadAccounts();
+}
+
+
+function editAccount(id) {
+    openAccountModal(id);
+}
+
+
+async function deleteAccount(id) {
+    if (!confirm("Yakin ingin menghapus akun ini?")) {
+        return;
+    }
+
+    const { error } = await supabase
+        .from("roblox_accounts")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        console.error(error);
+
+        alert(
+            "Gagal menghapus akun: " +
+            error.message
+        );
+
+        return;
+    }
+
+    await loadAccounts();
+}
+
+
+// ========================================
+// ORDERS
+// ========================================
+
+async function loadOrders() {
+    const { data, error } = await supabase
+        .from("orders")
+        .select(`
+            *,
+            products (
+                name
+            )
+        `)
+        .order("created_at", {
+            ascending: false
+        });
+
+    if (error) {
+        console.error(error);
+        alert("Gagal mengambil orders.");
+        return;
+    }
+
+    orders = data || [];
+
+    renderOrders();
+    updateDashboard();
+}
+
+
+function renderOrders() {
+    const tbody =
+        document.getElementById("orderTableBody");
+
+    if (!tbody) return;
+
+    if (!orders.length) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8" class="empty">
+                    Belum ada order.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    tbody.innerHTML = orders.map(order => `
+        <tr>
+
+            <td>
+                <strong>
+                    ${escapeHTML(order.invoice)}
+                </strong>
+            </td>
+
+            <td>
+                ${escapeHTML(
+                    order.products?.name || "-"
+                )}
+            </td>
+
+            <td>
+                ${escapeHTML(
+                    order.customer_name || "-"
+                )}
+            </td>
+
+            <td>
+                Rp ${formatNumber(order.total)}
+            </td>
+
+            <td>
+                ${escapeHTML(
+                    order.payment_method || "-"
+                )}
+            </td>
+
+            <td>
+                <span class="status ${
+                    order.payment_status === "PAID"
+                        ? "ready"
+                        : "waiting"
+                }">
+                    ${escapeHTML(
+                        order.payment_status || "-"
+                    )}
+                </span>
+            </td>
+
+            <td>
+                <span class="status ${
+                    order.order_status === "COMPLETED"
+                        ? "ready"
+                        : "waiting"
+                }">
+                    ${escapeHTML(
+                        order.order_status || "-"
+                    )}
+                </span>
+            </td>
+
+            <td>
+                ${formatDate(order.created_at)}
+            </td>
+
+        </tr>
+    `).join("");
+        }
+// ========================================
+// DASHBOARD
+// ========================================
+
+function updateDashboard() {
+    const totalProducts =
+        products.length;
+
+    const readyProducts =
+        products.filter(
+            p => Number(p.stock || 0) > 0
+        ).length;
+
+    const totalOrders =
+        orders.length;
+
+    const paidOrders =
+        orders.filter(
+            o => o.payment_status === "PAID"
+        ).length;
+
+    const elProducts =
+        document.getElementById("totalProducts");
+
+    const elReady =
+        document.getElementById("readyProducts");
+
+    const elOrders =
+        document.getElementById("totalOrders");
+
+    const elPaid =
+        document.getElementById("paidOrders");
+
+    if (elProducts)
+        elProducts.textContent =
+            totalProducts;
+
+    if (elReady)
+        elReady.textContent =
+            readyProducts;
+
+    if (elOrders)
+        elOrders.textContent =
+            totalOrders;
+
+    if (elPaid)
+        elPaid.textContent =
+            paidOrders;
+}
+
+
+// ========================================
+// TAB
+// ========================================
+
+function showTab(tab) {
+
+    document
+        .querySelectorAll(".tab-content")
+        .forEach(el => {
+            el.style.display = "none";
+        });
+
+    document
+        .querySelectorAll(".tab-btn")
+        .forEach(el => {
+            el.classList.remove("active");
+        });
+
+    const target =
+        document.getElementById(tab);
+
+    if (target) {
+        target.style.display = "block";
+    }
+
+    const button =
+        document.querySelector(
+            `[data-tab="${tab}"]`
+        );
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+    if (tab === "products") {
+        loadProducts();
+    }
+
+    if (tab === "accounts") {
+        loadAccounts();
+    }
+
+    if (tab === "orders") {
+        loadOrders();
+    }
+}
+
+
+// ========================================
+// HELPER
+// ========================================
+
+function formatNumber(number) {
+    return new Intl.NumberFormat("id-ID")
+        .format(Number(number || 0));
+}
+
+
+function formatDate(date) {
+    if (!date) return "-";
+
+    return new Date(date).toLocaleString(
+        "id-ID",
+        {
+            dateStyle: "short",
+            timeStyle: "short"
+        }
+    );
+}
+
+
+function escapeHTML(value) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+// ========================================
+// LOGOUT
+// ========================================
+
+async function logout() {
+    await supabase.auth.signOut();
+
+    location.reload();
+}
+
+
+// ========================================
+// INITIAL ADMIN
+// ========================================
+
+async function initAdmin() {
+
+    const {
+        data: {
+            session
+        }
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+
+        document
+            .getElementById("loginPage")
+            .style.display = "flex";
+
+        document
+            .getElementById("adminPage")
+            .style.display = "none";
+
+        return;
+    }
+
+    document
+        .getElementById("loginPage")
+        .style.display = "none";
+
+    document
+        .getElementById("adminPage")
+        .style.display = "block";
+
+    await loadProducts();
+    await loadAccounts();
+    await loadOrders();
+}
+
+
+// ========================================
+// AUTH LISTENER
+// ========================================
+
+supabase.auth.onAuthStateChange(
+    async (event, session) => {
+
+        if (session) {
+
+            document
+                .getElementById("loginPage")
+                .style.display = "none";
+
+            document
+                .getElementById("adminPage")
+                .style.display = "block";
+
+            await loadProducts();
+            await loadAccounts();
+            await loadOrders();
+
+        } else {
+
+            document
+                .getElementById("loginPage")
+                .style.display = "flex";
+
+            document
+                .getElementById("adminPage")
+                .style.display = "none";
+        }
+    }
+);
+
+
+// ========================================
+// START
+// ========================================
+
+document.addEventListener(
+    "DOMContentLoaded",
+    initAdmin
+);
 
 </script>
 
 </body>
 </html>
+    
+    
