@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SHINE - Roblox Store</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#08080c;
+    color:white;
+}
+
+nav{
+    height:70px;
+    padding:0 6%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #22222a;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.nav-link{
+    color:#aaa;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.hero{
+    text-align:center;
+    padding:75px 20px 55px;
+}
+
+.hero h1{
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    color:#999;
+    line-height:1.6;
+}
+
+.products{
+    width:90%;
+    max-width:1100px;
+    margin:auto;
+
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+}
+
+.card{
+    background:#111117;
+    border:1px solid #25252d;
+    border-radius:16px;
+    padding:25px 18px;
+    text-align:center;
+}
+
+.robux{
+    font-size:35px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.card h3{
+    margin-bottom:10px;
+}
+
+.price{
+    color:#aaa;
+    margin-bottom:20px;
+}
+
+.buy{
+    display:block;
+    text-decoration:none;
+    background:white;
+    color:black;
+    padding:13px;
+    border-radius:10px;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.buy:hover{
+    opacity:.85;
+}
+
+.features{
+    width:90%;
+    max-width:1100px;
+    margin:60px auto;
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.feature{
+    background:#111117;
+    border:1px solid #25252d;
+    border-radius:16px;
+    padding:25px;
+    text-align:center;
+}
+
+.feature h3{
+    margin-bottom:10px;
+}
+
+.feature p{
+    color:#888;
+    font-size:13px;
+    line-height:1.5;
+}
+
+footer{
+    text-align:center;
+    color:#555;
+    padding:30px;
+}
+
+@media(max-width:800px){
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .features{
+        grid-template-columns:1fr;
+    }
+
+    .hero h1{
+        font-size:42px;
+    }
+}
+
+@media(max-width:450px){
+
+    .products{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">
+        SHINE
+    </div>
+
+    <a href="#products" class="nav-link">
+        Products
+    </a>
+
+</nav>
+
+
+<section class="hero">
+
+    <h1>SHINE</h1>
+
+    <p>
+        Roblox digital store.<br>
+        Pilih produk dan lanjutkan ke checkout.
+    </p>
+
+</section>
+
+
+<section class="products" id="products">
+
+
+    <!-- 100 ROBUX -->
+
+    <div class="card">
+
+        <div class="robux">
+            R$
+        </div>
+
+        <h3>100 Robux</h3>
+
+        <div class="price">
+            Rp10.000
+        </div>
+
+        <a
+        href="checkout.html?product=100%20Robux&price=10000"
+        class="buy">
+
+            BELI SEKARANG
+
+        </a>
+
+    </div>
+
+
+    <!-- 250 ROBUX -->
+
+    <div class="card">
+
+        <div class="robux">
+            R$
+        </div>
+
+        <h3>250 Robux</h3>
+
+        <div class="price">
+            Rp20.000
+        </div>
+
+        <a
+        href="checkout.html?product=250%20Robux&price=20000"
+        class="buy">
+
+            BELI SEKARANG
+
+        </a>
+
+    </div>
+
+
+    <!-- 500 ROBUX -->
+
+    <div class="card">
+
+        <div class="robux">
+            R$
+        </div>
+
+        <h3>500 Robux</h3>
+
+        <div class="price">
+            Rp40.000
+        </div>
+
+        <a
+        href="checkout.html?product=500%20Robux&price=40000"
+        class="buy">
+
+            BELI SEKARANG
+
+        </a>
+
+    </div>
+
+
+    <!-- 1000 ROBUX -->
+
+    <div class="card">
+
+        <div class="robux">
+            R$
+        </div>
+
+        <h3>1.000 Robux</h3>
+
+        <div class="price">
+            Rp75.000
+        </div>
+
+        <a
+        href="checkout.html?product=1000%20Robux&price=75000"
+        class="buy">
+
+            BELI SEKARANG
+
+        </a>
+
+    </div>
+
+
+    <!-- 2000 ROBUX -->
+
+    <div class="card">
+
+        <div class="robux">
+            R$
+        </div>
+
+        <h3>2.000 Robux</h3>
+
+        <div class="price">
+            Rp140.000
+        </div>
+
+        <a
+        href="checkout.html?product=2000%20Robux&price=140000"
+        class="buy">
+
+            BELI SEKARANG
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<section class="features">
+
+    <div class="feature">
+
+        <h3>⚡ Cepat</h3>
+
+        <p>
+            Proses pesanan setelah pembayaran berhasil.
+        </p>
+
+    </div>
+
+
+    <div class="feature">
+
+        <h3>🔒 Aman</h3>
+
+        <p>
+            Data pembayaran tidak meminta password Roblox.
+        </p>
+
+    </div>
+
+
+    <div class="feature">
+
+        <h3>📱 Support</h3>
+
+        <p>
+            Hubungi admin melalui WhatsApp setelah pembayaran.
+        </p>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    SHINE © 2026
+
+</footer>
+
+</body>
+</html>
