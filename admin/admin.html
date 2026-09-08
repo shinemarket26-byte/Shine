@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nainsan Store - Admin</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #08090d;
+            color: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .badge {
+            background: #18251c;
+            color: #4ade80;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+        }
+
+        .login {
+            max-width: 420px;
+            margin: 80px auto;
+            background: #11131a;
+            border: 1px solid #242733;
+            border-radius: 20px;
+            padding: 30px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        p {
+            color: #9297a7;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 14px;
+            border-radius: 10px;
+            border: 1px solid #292d3a;
+            background: #08090d;
+            color: white;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: 0;
+            border-radius: 10px;
+            background: #fff;
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        #dashboard {
+            display: none;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: #11131a;
+            border: 1px solid #242733;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .card small {
+            color: #9297a7;
+        }
+
+        .card strong {
+            display: block;
+            font-size: 28px;
+            margin-top: 8px;
+        }
+
+        .orders {
+            background: #11131a;
+            border: 1px solid #242733;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .order {
+            padding: 16px 0;
+            border-bottom: 1px solid #242733;
+        }
+
+        .order:last-child {
+            border-bottom: 0;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: #25202b;
+            color: #fbbf24;
+            font-size: 12px;
+        }
+
+        @media(max-width:700px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="loginPage" class="login">
+    <h1>Admin Panel</h1>
+    <p>Nainsan Store Management</p>
+
+    <input id="username" type="text" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="login()">MASUK ADMIN</button>
+</div>
+
+
+<div id="dashboard">
+
+    <div class="container">
+
+        <div class="header">
+            <div class="logo">Nainsan Store Admin</div>
+            <div class="badge">ADMIN ONLINE</div>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <small>Total Order</small>
+                <strong id="totalOrder">0</strong>
+            </div>
+
+            <div class="card">
+                <small>Menunggu Pembayaran</small>
+                <strong id="waitingOrder">0</strong>
+            </div>
+
+            <div class="card">
+                <small>Selesai</small>
+                <strong id="completedOrder">0</strong>
+            </div>
+
+        </div>
+
+
+        <div class="orders">
+
+            <h2>Order Terbaru</h2>
+
+            <div id="orderList" style="margin-top:15px;">
+                Belum ada order.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function login() {
+
+    const username =
+        document.getElementById("username").value;
+
+    const password =
+        document.getElementById("password").value;
+
+    /*
+       LOGIN SEMENTARA
+
+       NANTI KITA GANTI DENGAN
+       SUPABASE AUTH AGAR AMAN.
+    */
+
+    if (
+        username === "admin" &&
+        password === "admin123"
+    ) {
+
+        document.getElementById("loginPage").style.display =
+            "none";
+
+        document.getElementById("dashboard").style.display =
+            "block";
+
+        loadOrders();
+
+    } else {
+
+        alert("Username atau password salah!");
+
+    }
+
+}
+
+
+function loadOrders() {
+
+    const orders =
+        JSON.parse(
+            localStorage.getItem("nainsan_invoices") || "[]"
+        );
+
+    document.getElementById("totalOrder").innerText =
+        orders.length;
+
+    document.getElementById("waitingOrder").innerText =
+        orders.filter(
+            o => o.status === "WAITING_PAYMENT"
+        ).length;
+
+    document.getElementById("completedOrder").innerText =
+        orders.filter(
+            o => o.status === "COMPLETED"
+        ).length;
+
+
+    const list =
+        document.getElementById("orderList");
+
+    if (!orders.length) {
+
+        list.innerHTML = "Belum ada order.";
+
+        return;
+
+    }
+
+
+    list.innerHTML = orders
+        .slice()
+        .reverse()
+        .map(order => `
+
+            <div class="order">
+
+                <strong>
+                    ${order.invoice || "-"}
+                </strong>
+
+                <br>
+
+                ${order.productName || "-"}
+
+                <br>
+
+                ${order.total || "-"}
+
+                <br>
+
+                <span class="status">
+                    ${order.status || "UNKNOWN"}
+                </span>
+
+            </div>
+
+        `)
+        .join("");
+
+}
+
+</script>
+
+</body>
+</html>
