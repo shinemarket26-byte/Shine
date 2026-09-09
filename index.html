@@ -223,34 +223,32 @@ const waktu = now.toLocaleTimeString("id-ID", {
   hour12: false
 });
 
-const invoice =
-`✨ SHINE STORE
+const invoice = `
+✨ *SHINE STORE*
 ━━━━━━━━━━━━━━━━━━
 
-🧾 INVOICE PESANAN
+🧾 *INVOICE PESANAN*
 
-📅 Tanggal : ${tanggal}
-⏰ Waktu   : ${waktu} WIB
+📅 *Tanggal* : ${tanggal}
+⏰ *Waktu* : ${waktu} WIB
 
-📦 Produk
-${selectedProduct.name}
+📦 *Detail Pesanan*
+• Produk : ${produk}
+• Harga : Rp${harga.toLocaleString('id-ID')}
+• Username : ${username}
 
-💰 Harga
-${selectedProduct.price}
-
-🎮 Username Roblox
-${username}
-
-📱 WhatsApp Customer
-${phone || "-"}
+📱 *WhatsApp Customer*
+${whatsapp}
 
 ━━━━━━━━━━━━━━━━━━
-⏳ Status : Menunggu Konfirmasi
+⏳ *Status: Menunggu Konfirmasi*
 
-Mohon konfirmasi pesanan saya.
+Mohon segera konfirmasi pesanan saya.
 
 Terima kasih telah memilih
-✨ Shine Store`;
+✨ *SHINE STORE*
+━━━━━━━━━━━━━━━━━━
+`;
   window.open(`https://wa.me/${ADMIN_WA}?text=${invoice}`,"_blank");
 }
 document.getElementById("waHero").href = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent("Halo Shine Store, saya ingin bertanya mengenai produk Robux.")}`;
