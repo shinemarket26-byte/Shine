@@ -209,10 +209,6 @@ function sendOrder(){
   const username = document.getElementById("username").value.trim();
   const phone = document.getElementById("phone").value.trim();
   if(!username){alert("Username Roblox wajib diisi.");return;}
-  if(ADMIN_WA === "6285894428443"){
-    alert("Silakan ganti ADMIN_WA di bagian pengaturan file index.html dengan nomor WhatsApp admin.");
-    return;
-  }
   const invoice = `*SHINE STORE — INVOICE PESANAN*%0A%0A`+
     `Produk: ${selectedProduct.name}%0A`+
     `Harga: ${selectedProduct.price}%0A`+
