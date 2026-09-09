@@ -206,25 +206,30 @@ document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="
 
 function sendOrder(){
   if(!selectedProduct) return;
+
   const username = document.getElementById("username").value.trim();
   const phone = document.getElementById("phone").value.trim();
-  if(!username){alert("Username Roblox wajib diisi.");return;}
+
+  if(!username){
+    alert("Username Roblox wajib diisi.");
+    return;
+  }
+
   const now = new Date();
 
-const tanggal = now.toLocaleDateString("id-ID", {
-  day: "2-digit",
-  month: "long",
-  year: "numeric"
-});
+  const tanggal = now.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  });
 
-const waktu = now.toLocaleTimeString("id-ID", {
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: false
-});
+  const waktu = now.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  });
 
-const invoice = `
-✨ *SHINE STORE*
+  const invoice = `✨ *SHINE STORE*
 ━━━━━━━━━━━━━━━━━━
 
 🧾 *INVOICE PESANAN*
@@ -233,23 +238,25 @@ const invoice = `
 ⏰ *Waktu* : ${waktu} WIB
 
 📦 *Detail Pesanan*
-• Produk : ${produk}
-• Harga : Rp${harga.toLocaleString('id-ID')}
-• Username : ${username}
+• Produk : ${selectedProduct.name}
+• Harga : ${selectedProduct.price}
+• Username Roblox : ${username}
 
 📱 *WhatsApp Customer*
-${whatsapp}
+${phone || "-"}
 
 ━━━━━━━━━━━━━━━━━━
-⏳ *Status: Menunggu Konfirmasi*
+⏳ *Status : Menunggu Konfirmasi*
 
-Mohon segera konfirmasi pesanan saya.
+Mohon konfirmasi pesanan saya.
 
 Terima kasih telah memilih
 ✨ *SHINE STORE*
-━━━━━━━━━━━━━━━━━━
-`;
-  window.open(`https://wa.me/${ADMIN_WA}?text=${invoice}`,"_blank");
+━━━━━━━━━━━━━━━━━━`;
+
+  const waURL = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(invoice)}`;
+
+  window.open(waURL, "_blank");
 }
 document.getElementById("waHero").href = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent("Halo Shine Store, saya ingin bertanya mengenai produk Robux.")}`;
 renderProducts();
