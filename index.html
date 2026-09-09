@@ -158,7 +158,7 @@
    2. Edit daftar PRODUCTS di bawah.
    3. Ubah available: true/false untuk status stock.
 */
-const ADMIN_WA = "6281234567890";
+const ADMIN_WA = "6285894428443";
 
 const PRODUCTS = [
   {id:1, name:"80 Robux", price:"Rp 15.000", desc:"Nominal kecil untuk kebutuhan cepat.", available:true},
@@ -209,7 +209,7 @@ function sendOrder(){
   const username = document.getElementById("username").value.trim();
   const phone = document.getElementById("phone").value.trim();
   if(!username){alert("Username Roblox wajib diisi.");return;}
-  if(ADMIN_WA === "6281234567890"){
+  if(ADMIN_WA === "6285894428443"){
     alert("Silakan ganti ADMIN_WA di bagian pengaturan file index.html dengan nomor WhatsApp admin.");
     return;
   }
