@@ -210,48 +210,404 @@ async function findUser(){
   }
 }
 function confirmProfile(){if(!robloxUser)return;document.getElementById('profile').classList.add('selected');document.getElementById('success').classList.add('show');updateContinue();showToast('Akun dikonfirmasi ✓')}
-function selectPayment(b){
-  document.querySelectorAll('.pay').forEach(x=>x.classList.remove('active'));
+<script>
+const ADMIN_WA="6285718085052";
+const HARGA_PER_ROBUX=200;
+const MIN_ROBUX=5;
+const MAX_ROBUX=1000;
 
-  b.classList.add('active');
+const PRODUCTS=[
+  {id:1,robux:10,available:true},
+  {id:2,robux:50,available:true},
+  {id:3,robux:100,available:true},
+  {id:4,robux:250,available:true},
+  {id:5,robux:500,available:true},
+  {id:6,robux:1000,available:true}
+];
 
-  selectedPayment=b.dataset.method;
+const PAYMENT_INFO={
+  "GoPay":{
+    number:"08xxxxxxxxxx",
+    name:"Nama Admin"
+  },
+  "ShopeePay":{
+    number:"08xxxxxxxxxx",
+    name:"Nama Admin"
+  },
+  "DANA":{
+    number:"08xxxxxxxxxx",
+    name:"Nama Admin"
+  },
+  "OVO":{
+    number:"08xxxxxxxxxx",
+    name:"Nama Admin"
+  }
+};
 
-  const info=PAYMENT_INFO[selectedPayment];
+let robloxUser=null;
+let selectedAmount=null;
+let selectedPayment="";
+let invoice=null;
 
-  document.getElementById("paymentInfo").style.display="block";
+function rupiah(n){
+  return "Rp "+Number(n).toLocaleString("id-ID");
+}
 
-  document.getElementById("paymentMethodInfo").textContent=selectedPayment;
-  document.getElementById("paymentNumberInfo").textContent=info.number;
-  document.getElementById("paymentNameInfo").textContent=info.name;
+function getPrice(r){
+  return r*HARGA_PER_ROBUX;
+}
 
-  document.getElementById("paymentAction").style.display="block";
-    }
-function updateContinue(){const confirmed=document.getElementById('profile').classList.contains('selected');document.getElementById('invoiceBtn').disabled=!(confirmed&&selectedAmount!==null&&selectedPayment)}async function createInvoice(){
+function renderProducts(){
+  document.getElementById("productGrid").innerHTML=PRODUCTS.map(p=>`
+    <article class="product">
+      <div class="ptop">
+        <div class="ricon">◆</div>
+        <span class="status ${p.available?'av':'off'}">
+          ${p.available?'● Tersedia':'● Habis'}
+        </span>
+      </div>
 
-  if(!robloxUser || selectedAmount===null || !selectedPayment){
-    showToast('Lengkapi akun, nominal, dan pembayaran');
+      <h3>${p.robux.toLocaleString('id-ID')} R$</h3>
+
+      <div class="pprice">
+        ${rupiah(getPrice(p.robux))}
+      </div>
+
+      <button
+        class="pbtn"
+        ${p.available?'':'disabled'}
+        onclick="selectPreset(${p.robux})">
+        ${p.available?'Pilih Nominal →':'Stock Habis'}
+      </button>
+    </article>
+  `).join("");
+}
+
+function setSelectedAmount(a){
+  selectedAmount=Number(a);
+
+  document.getElementById("selectedAmount").textContent=
+    selectedAmount.toLocaleString('id-ID')+" Robux";
+
+  document.getElementById("selectedRate").textContent=
+    rupiah(HARGA_PER_ROBUX);
+
+  document.getElementById("selectedTotal").textContent=
+    rupiah(getPrice(selectedAmount));
+
+  document.getElementById("selectedBox").classList.add("show");
+}
+
+function selectPreset(a){
+  setSelectedAmount(a);
+
+  showToast(
+    a.toLocaleString('id-ID')+" Robux dipilih"
+  );
+
+  document.getElementById("selectedBox").scrollIntoView({
+    behavior:"smooth",
+    block:"center"
+  });
+}
+
+function selectCustom(){
+  const raw=Number(
+    document.getElementById("customAmount").value
+  );
+
+  if(
+    !Number.isInteger(raw) ||
+    raw<MIN_ROBUX ||
+    raw>MAX_ROBUX
+  ){
+    showToast("Masukkan 5–1000 Robux");
     return;
   }
 
-  const d = new Date();
+  setSelectedAmount(raw);
+  showToast("Jumlah custom dipilih ✓");
+}
 
-  const date = d.toLocaleDateString('id-ID',{
-    day:'2-digit',
-    month:'long',
-    year:'numeric'
-  });
+document.getElementById("customAmount").addEventListener(
+  "keydown",
+  e=>{
+    if(e.key==="Enter"){
+      selectCustom();
+    }
+  }
+);
 
-  const time = d.toLocaleTimeString('id-ID',{
-    hour:'2-digit',
-    minute:'2-digit',
-    second:'2-digit',
-    hour12:false
-  });
+async function findUser(){
 
-  const id = 'SHINE-' + Date.now().toString().slice(-8);
+  const username=
+    document.getElementById("username").value.trim();
 
-  invoice = {
+  const error=
+    document.getElementById("userError");
+
+  const profile=
+    document.getElementById("profile");
+
+  const success=
+    document.getElementById("success");
+
+  const btn=
+    document.getElementById("searchBtn");
+
+  error.classList.remove("show");
+
+  profile.classList.remove(
+    "show",
+    "selected"
+  );
+
+  success.classList.remove("show");
+
+  robloxUser=null;
+
+  if(!username){
+
+    error.textContent=
+      "Username Roblox wajib diisi.";
+
+    error.classList.add("show");
+
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent="…";
+
+  try{
+
+    const res=await fetch(
+      "/api/roblox-user?username="+
+      encodeURIComponent(username),
+      {
+        method:"GET",
+        cache:"no-store",
+        headers:{
+          "Accept":"application/json"
+        }
+      }
+    );
+
+    let data={};
+
+    try{
+      data=await res.json();
+    }catch(_){
+      data={};
+    }
+
+    if(
+      !res.ok ||
+      !data.success ||
+      !data.user ||
+      !data.user.id
+    ){
+
+      error.textContent=
+        data.message ||
+        data.error ||
+        "Profil Roblox tidak ditemukan. Coba lagi.";
+
+      error.classList.add("show");
+
+      return;
+    }
+
+    robloxUser={
+      id:data.user.id,
+      username:data.user.username,
+      displayName:
+        data.user.displayName ||
+        data.user.username,
+      avatar:data.user.avatar || ""
+    };
+
+    const avatarEl=
+      document.getElementById("avatar");
+
+    avatarEl.src=
+      robloxUser.avatar ||
+      "data:image/svg+xml;charset=UTF-8,"+
+      encodeURIComponent(`
+        <svg xmlns="http://www.w3.org/2000/svg"
+             width="150"
+             height="150">
+          <rect width="150"
+                height="150"
+                rx="24"
+                fill="#1b1a17"/>
+          <text x="75"
+                y="92"
+                text-anchor="middle"
+                font-family="Arial"
+                font-size="64"
+                fill="#e7bf68">
+            ${String(
+              robloxUser.username
+            ).charAt(0).toUpperCase()}
+          </text>
+        </svg>
+      `);
+
+    document.getElementById(
+      "displayName"
+    ).textContent=
+      robloxUser.displayName;
+
+    document.getElementById(
+      "profileUsername"
+    ).textContent=
+      "@"+robloxUser.username;
+
+    profile.classList.add("show");
+
+    profile.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+  }catch(err){
+
+    console.error(err);
+
+    error.textContent=
+      "Profil Roblox tidak bisa dimuat. Pastikan website sudah dideploy dengan folder /api lalu coba lagi.";
+
+    error.classList.add("show");
+
+  }finally{
+
+    btn.disabled=false;
+    btn.textContent="⌕";
+  }
+}
+
+function confirmProfile(){
+
+  if(!robloxUser)return;
+
+  document
+    .getElementById("profile")
+    .classList.add("selected");
+
+  document
+    .getElementById("success")
+    .classList.add("show");
+
+  showToast(
+    "Akun dikonfirmasi ✓"
+  );
+}
+
+function selectPayment(b){
+
+  document
+    .querySelectorAll(".pay")
+    .forEach(x=>
+      x.classList.remove("active")
+    );
+
+  b.classList.add("active");
+
+  selectedPayment=
+    b.dataset.method;
+
+  const info=
+    PAYMENT_INFO[selectedPayment];
+
+  if(!info)return;
+
+  document.getElementById(
+    "paymentInfo"
+  ).style.display="block";
+
+  document.getElementById(
+    "paymentMethodInfo"
+  ).textContent=
+    selectedPayment;
+
+  document.getElementById(
+    "paymentNumberInfo"
+  ).textContent=
+    info.number;
+
+  document.getElementById(
+    "paymentNameInfo"
+  ).textContent=
+    info.name;
+
+  const action=
+    document.getElementById(
+      "paymentAction"
+    );
+
+  if(action){
+    action.style.display="block";
+  }
+}
+
+async function createInvoice(){
+
+  if(
+    !robloxUser ||
+    selectedAmount===null ||
+    !selectedPayment
+  ){
+
+    showToast(
+      "Lengkapi akun, nominal, dan pembayaran"
+    );
+
+    return;
+  }
+
+  const profile=
+    document.getElementById("profile");
+
+  if(
+    !profile.classList.contains("selected")
+  ){
+
+    showToast(
+      "Konfirmasi profil Roblox terlebih dahulu"
+    );
+
+    return;
+  }
+
+  const d=new Date();
+
+  const date=
+    d.toLocaleDateString(
+      "id-ID",
+      {
+        day:"2-digit",
+        month:"long",
+        year:"numeric"
+      }
+    );
+
+  const time=
+    d.toLocaleTimeString(
+      "id-ID",
+      {
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit",
+        hour12:false
+      }
+    );
+
+  const id=
+    "SHINE-"+
+    Date.now().toString().slice(-8);
+
+  invoice={
     id,
     date,
     time,
@@ -264,55 +620,197 @@ function updateContinue(){const confirmed=document.getElementById('profile').cla
     status:"waiting"
   };
 
-  // Simpan order ke server
   try{
 
-    const response = await fetch('/api/orders',{
-      method:'POST',
-      headers:{
-        'Content-Type':'application/json'
-      },
-      body:JSON.stringify(invoice)
-    });
+    const response=
+      await fetch(
+        "/api/orders",
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":
+              "application/json"
+          },
+          body:
+            JSON.stringify(invoice)
+        }
+      );
 
-    const data = await response.json();
+    const data=
+      await response.json();
 
-    if(!response.ok || !data.success){
-      showToast('Gagal menyimpan pesanan');
+    if(
+      !response.ok ||
+      !data.success
+    ){
+
+      showToast(
+        "Gagal menyimpan pesanan"
+      );
+
       return;
     }
 
   }catch(error){
 
     console.error(error);
-    showToast('Server tidak bisa dihubungi');
-    return;
 
+    showToast(
+      "Server tidak bisa dihubungi"
+    );
+
+    return;
   }
 
-  // Tampilkan invoice
-  document.getElementById('invoiceId').textContent='#'+id;
-  document.getElementById('iDate').textContent=date;
-  document.getElementById('iTime').textContent=time+' WIB';
-  document.getElementById('iUser').textContent=invoice.username;
-  document.getElementById('iDisplay').textContent=invoice.display;
-  document.getElementById('iAmount').textContent=
-    invoice.amount.toLocaleString('id-ID')+' Robux';
-  document.getElementById('iRate').textContent=
+  document.getElementById(
+    "invoiceId"
+  ).textContent=
+    "#"+id;
+
+  document.getElementById(
+    "iDate"
+  ).textContent=
+    date;
+
+  document.getElementById(
+    "iTime"
+  ).textContent=
+    time+" WIB";
+
+  document.getElementById(
+    "iUser"
+  ).textContent=
+    invoice.username;
+
+  document.getElementById(
+    "iDisplay"
+  ).textContent=
+    invoice.display;
+
+  document.getElementById(
+    "iAmount"
+  ).textContent=
+    invoice.amount.toLocaleString(
+      "id-ID"
+    )+" Robux";
+
+  document.getElementById(
+    "iRate"
+  ).textContent=
     rupiah(invoice.rate);
-  document.getElementById('iPay').textContent=
+
+  document.getElementById(
+    "iPay"
+  ).textContent=
     invoice.pay;
-  document.getElementById('iTotal').textContent=
+
+  document.getElementById(
+    "iTotal"
+  ).textContent=
     rupiah(invoice.total);
 
-  document.getElementById('invoice').classList.add('show');
+  document.getElementById(
+    "invoice"
+  ).classList.add("show");
 
   setTimeout(()=>{
-    document.getElementById('invoice').scrollIntoView({
-      behavior:'smooth'
+
+    document.getElementById(
+      "invoice"
+    ).scrollIntoView({
+      behavior:"smooth"
     });
+
   },100);
 }
-function sendWA(){if(!invoice)return;const x=invoice,msg=`✨ *SHINE STORE*\n━━━━━━━━━━━━━━━━━━\n🧾 *INVOICE PESANAN*\n\n🔖 Invoice: *#${x.id}*\n📅 Tanggal: ${x.date}\n⏰ Waktu: ${x.time} WIB\n\n👤 *DATA AKUN*\n• Username: *${x.username}*\n• Nama Profil: ${x.display}\n\n💎 *DETAIL PESANAN*\n• Robux: *${x.amount.toLocaleString('id-ID')} Robux*\n• Harga/Robux: ${rupiah(x.rate)}\n• Total: *${rupiah(x.total)}*\n\n💳 *PEMBAYARAN*\n• Metode: *${x.pay}*\n\n━━━━━━━━━━━━━━━━━━\n⏳ Status: *Menunggu Konfirmasi*\n\nHalo Admin Shine Store, saya ingin melanjutkan pesanan ini. Mohon konfirmasi detail pesanan dan pembayaran.\n\nTerima kasih 🙏\n✨ *SHINE STORE*`;window.open('https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent(msg),'_blank')}
-function editOrder(){document.getElementById('invoice').classList.remove('show');document.getElementById('order').scrollIntoView({behavior:'smooth'})}function showToast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>e.classList.remove('show'),2400)}document.getElementById('username').addEventListener('keydown',e=>{if(e.key==='Enter')findUser()});renderProducts();
+
+function sendWA(){
+
+  if(!invoice)return;
+
+  const x=invoice;
+
+  const msg=
+`✨ *SHINE STORE*
+━━━━━━━━━━━━━━━━━━
+🧾 *INVOICE PESANAN*
+
+🔖 Invoice: *#${x.id}*
+📅 Tanggal: ${x.date}
+⏰ Waktu: ${x.time} WIB
+
+👤 *DATA AKUN*
+• Username: *${x.username}*
+• Nama Profil: ${x.display}
+
+💎 *DETAIL PESANAN*
+• Robux: *${x.amount.toLocaleString('id-ID')} Robux*
+• Harga/Robux: ${rupiah(x.rate)}
+• Total: *${rupiah(x.total)}*
+
+💳 *PEMBAYARAN*
+• Metode: *${x.pay}*
+
+━━━━━━━━━━━━━━━━━━
+⏳ Status: *Menunggu Konfirmasi*
+
+Halo Admin Shine Store, saya ingin melanjutkan pesanan ini. Mohon konfirmasi detail pesanan dan pembayaran.
+
+Terima kasih 🙏
+✨ *SHINE STORE*`;
+
+  window.open(
+    "https://wa.me/"+
+    ADMIN_WA+
+    "?text="+
+    encodeURIComponent(msg),
+    "_blank"
+  );
+}
+
+function editOrder(){
+
+  document
+    .getElementById("invoice")
+    .classList.remove("show");
+
+  document
+    .getElementById("order")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+}
+
+function showToast(t){
+
+  const e=
+    document.getElementById("toast");
+
+  e.textContent=t;
+
+  e.classList.add("show");
+
+  clearTimeout(
+    window.__toast
+  );
+
+  window.__toast=
+    setTimeout(
+      ()=>e.classList.remove("show"),
+      2400
+    );
+}
+
+document
+  .getElementById("username")
+  .addEventListener(
+    "keydown",
+    e=>{
+      if(e.key==="Enter"){
+        findUser();
+      }
+    }
+  );
+
+renderProducts();
 </script></body></html>
