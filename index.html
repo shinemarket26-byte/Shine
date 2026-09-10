@@ -174,9 +174,21 @@ async function findUser(){
 }
 function confirmProfile(){if(!robloxUser)return;document.getElementById('profile').classList.add('selected');document.getElementById('success').classList.add('show');updateContinue();showToast('Akun dikonfirmasi ✓')}
 function selectPayment(b){
-  document.querySelectorAll('.pay').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.pay').forEach(x => x.classList.remove('active'));
+
   b.classList.add('active');
-  selectedPayment=b.dataset.method;
+
+  selectedPayment = b.dataset.method;
+
+  const info = PAYMENT_INFO[selectedPayment];
+
+  if(info){
+    document.getElementById("paymentInfo").style.display = "block";
+    document.getElementById("paymentMethodInfo").textContent = selectedPayment;
+    document.getElementById("paymentNumberInfo").textContent = info.number;
+    document.getElementById("paymentNameInfo").textContent = info.name;
+  }
+
   updateContinue();
 }
 function updateContinue(){const confirmed=document.getElementById('profile').classList.contains('selected');document.getElementById('invoiceBtn').disabled=!(confirmed&&selectedAmount!==null&&selectedPayment)}async function createInvoice(){
