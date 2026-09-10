@@ -65,7 +65,44 @@ section{padding:24px 0}.card{background:linear-gradient(145deg,rgba(255,255,255,
   <div style="margin-top:12px;font-size:10px;color:var(--muted);line-height:1.5">
     Pastikan nomor dan nama penerima sudah benar sebelum melakukan pembayaran.
   </div>
-</div><button id="invoiceBtn" class="continue" disabled onclick="createInvoice()">Lanjutkan & Buat Invoice →</button></div></section>
+</div><div id="paymentAction" style="
+  display:none;
+  margin-top:14px;
+  padding:16px;
+  border-radius:16px;
+  border:1px solid var(--gold);
+  background:rgba(216,177,95,.06);
+">
+
+  <div style="
+    font-size:11px;
+    color:var(--gold);
+    font-weight:900;
+    letter-spacing:1px;
+  ">
+    SILAKAN LAKUKAN PEMBAYARAN
+  </div>
+
+  <div style="
+    margin-top:8px;
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.5;
+  ">
+    Transfer sesuai nominal pesanan ke tujuan pembayaran di atas.
+    Setelah pembayaran berhasil, tekan tombol di bawah.
+  </div>
+
+  <button
+    id="paidBtn"
+    class="continue"
+    style="margin-top:14px"
+    onclick="createInvoice()"
+  >
+    ✓ Saya Sudah Bayar
+  </button>
+
+</div></div></section>
 <section class="wrap"><div id="invoice" class="card invoice"><div class="invtop"><div><div class="kicker">Order Summary</div><h2 style="font-size:24px">Invoice Pesanan</h2></div><div id="invoiceId" class="invnum">#SHINE-00000000</div></div><div class="lines"><div class="line"><span>Tanggal</span><b id="iDate">-</b></div><div class="line"><span>Waktu</span><b id="iTime">-</b></div><div class="line"><span>Username Roblox</span><b id="iUser">-</b></div><div class="line"><span>Nama Profil</span><b id="iDisplay">-</b></div><div class="line"><span>Jumlah Robux</span><b id="iAmount">-</b></div><div class="line"><span>Harga / Robux</span><b id="iRate">-</b></div><div class="line"><span>Metode Pembayaran</span><b id="iPay">-</b></div><div class="line"><span>Total</span><b id="iTotal" class="total">-</b></div></div><button class="wa" onclick="sendWA()">💬 Lanjutkan ke WhatsApp</button><button class="edit" onclick="editOrder()">← Ubah Pesanan</button><p class="note" style="text-align:center;margin-top:11px">Invoice ini akan dikirim ke admin untuk konfirmasi pesanan dan pembayaran.</p></div></section>
 </main><footer><div class="wrap">© 2026 <span class="gold">Shine Store</span> · Fast · Simple · Premium</div></footer><div id="toast" class="toast"></div>
 
