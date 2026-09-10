@@ -333,7 +333,53 @@ function getStatus(status){
   return "MENUNGGU BAYAR";
 
 }
+async function changeStatus(id){
 
+  const currentOrder = orders.find(x => x.id === id);
+
+  if(!currentOrder) return;
+
+  let newStatus;
+
+  if(currentOrder.status === 'waiting'){
+    newStatus = 'paid';
+  }else if(currentOrder.status === 'paid'){
+    newStatus = 'done';
+  }else{
+    newStatus = 'waiting';
+  }
+
+  try{
+
+    const response = await fetch('/api/orders',{
+      method:'PATCH',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({
+        id:id,
+        status:newStatus
+      })
+    });
+
+    const data = await response.json();
+
+    if(!response.ok || !data.success){
+      alert('Gagal mengubah status');
+      return;
+    }
+
+    currentOrder.status = newStatus;
+
+    render();
+
+  }catch(error){
+
+    console.error(error);
+    alert('Server tidak bisa dihubungi');
+
+  }
+        }
 render();
 
 </script>
