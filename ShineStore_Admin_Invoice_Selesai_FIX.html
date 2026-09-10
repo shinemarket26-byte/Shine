@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shine Store — Admin Invoice Selesai</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#08090c;color:#eee;font-family:Arial,sans-serif;padding:20px}
+.wrap{max-width:680px;margin:auto}
+.gold{color:#d6b56c;letter-spacing:3px;font-size:12px}
+.title{font-size:28px;font-weight:800;margin:8px 0}
+.sub{color:#999;margin-bottom:18px}
+.card{background:#111318;border:1px solid #292c33;border-radius:18px;padding:16px;margin:12px 0}
+label{display:block;color:#aaa;font-size:12px;margin-bottom:7px}
+textarea,.out{width:100%;background:#090a0d;color:#eee;border:1px solid #30333a;border-radius:12px;padding:13px}
+textarea{min-height:210px;resize:vertical}
+.out{white-space:pre-wrap;line-height:1.55;min-height:310px;font-size:13px}
+button{width:100%;padding:14px;margin-top:10px;border:0;border-radius:12px;font-weight:800;cursor:pointer}
+.gen{background:#d1ad61;color:#111}
+.copy{background:#eee;color:#111}
+.wa{background:#20aa5b;color:#fff}
+.ok{color:#8ee2a8;margin-top:10px;font-size:13px}
+.info{font-size:12px;color:#777;line-height:1.5;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="gold">SHINE STORE</div>
+<div class="title">Invoice Pesanan Selesai</div>
+<div class="sub">Paste invoice customer → data otomatis dibaca → generate invoice selesai.</div>
+
+<div class="card">
+<label>PASTE INVOICE CUSTOMER</label>
+<textarea id="inp" placeholder="Paste seluruh invoice dari WhatsApp di sini..."></textarea>
+<button class="gen" onclick="generate()">⚡ Generate Invoice Selesai</button>
+<div id="ok" class="ok"></div>
+</div>
+
+<div class="card">
+<label>HASIL INVOICE SELESAI</label>
+<div id="out" class="out">Belum ada invoice.</div>
+<button class="copy" onclick="copyInvoice()">📋 Copy Invoice</button>
+<button class="wa" onclick="openWA()">💬 Buka WhatsApp Admin</button>
+<div class="info">Setelah dikirim ke customer, lampirkan screenshot bukti pengiriman Robux.</div>
+</div>
+</div>
+
+<script>
+let currentInvoice = "";
+
+function clean(v){
+  return String(v || "")
+    .replace(/\r/g,"")
+    .replace(/\*\*/g,"")
+    .replace(/\*/g,"")
+    .replace(/__/g,"")
+    .replace(/_/g,"")
+    .trim();
+}
+
+function getLine(text, label){
+  const re = new RegExp("(?:^|\\n)\\s*(?:[•·\\-]\\s*)?" + label + "\\s*:\\s*([^\\n]+)", "i");
+  const m = text.match(re);
+  return m ? clean(m[1]) : "";
+}
+
+function getNumber(text, label){
+  const v = getLine(text,label);
+  const m = v.match(/[\d.,]+/);
+  return m ? m[0] : "";
+}
+
+function rupiah(value){
+  const n = Number(String(value).replace(/\D/g,"")) || 0;
+  return "Rp " + n.toLocaleString("id-ID");
+}
+
+function defaultDate(){
+  return new Date().toLocaleDateString("id-ID",{
+    day:"2-digit",month:"long",year:"numeric"
+  });
+}
+
+function defaultTime(){
+  return new Date().toLocaleTimeString("id-ID",{
+    hour:"2-digit",minute:"2-digit",second:"2-digit"
+  });
+}
+
+function generate(){
+  const raw = document.getElementById("inp").value;
+  if(!raw.trim()){
+    alert("Paste invoice customer dulu.");
+    return;
+  }
+
+  const text = clean(raw);
+
+  // Invoice: support #SHINE-123, **#SHINE-123**, ##SHINE-123**
+  let invoice = getLine(text,"Invoice");
+  invoice = invoice.replace(/^#+/,"").replace(/\*+$/,"").trim();
+
+  // Fallback khusus kalau format invoice berada setelah emoji/heading
+  if(!invoice){
+    const m = text.match(/Invoice\s*:\s*\**#*([A-Za-z0-9_-]+)\**/i);
+    invoice = m ? clean(m[1]) : "SHINE-XXXXXXXX";
+  }
+
+  const username = getLine(text,"Username") || "-";
+  const display = getLine(text,"Nama Profil") || getLine(text,"Display Name") || "-";
+
+  let robux = getNumber(text,"Robux");
+  if(!robux){
+    // Ambil angka sebelum "Robux" bila formatnya agak berbeda
+    const m = text.match(/(?:Robux\s*:\s*|•\s*Robux\s*:\s*)[^\n]*?([\d.,]+)\s*Robux/i);
+    if(m) robux = m[1];
+  }
+  if(!robux) robux = "0";
+
+  let rate = getNumber(text,"Harga/Robux");
+  if(!rate) rate = getNumber(text,"Harga / Robux");
+  if(!rate) rate = "200";
+
+  let total = getNumber(text,"Total");
+  const totalNumber = total || String(
+    (Number(robux.replace(/\D/g,"")) || 0) *
+    (Number(rate.replace(/\D/g,"")) || 200)
+  );
+
+  const payment = getLine(text,"Metode") || "-";
+  const date = getLine(text,"Tanggal") || defaultDate();
+  const time = getLine(text,"Waktu") || defaultTime();
+
+  currentInvoice = `✨ SHINE STORE
+━━━━━━━━━━━━━━━━━━
+🧾 INVOICE PESANAN SELESAI
+
+🔖 Invoice: #${invoice}
+📅 Tanggal: ${date}
+⏰ Waktu: ${time}
+
+👤 DATA AKUN
+• Username: ${username}
+• Nama Profil: ${display}
+
+💎 DETAIL PESANAN
+• Robux: ${robux} Robux
+• Harga/Robux: ${rupiah(rate)}
+• Total: ${rupiah(totalNumber)}
+
+💳 PEMBAYARAN
+• Metode: ${payment}
+• Status Pembayaran: ✅ TERVERIFIKASI
+
+📦 STATUS PESANAN
+• Status: ✅ SELESAI
+• Robux: ${robux} Robux
+• Status Pengiriman: ✅ BERHASIL DIKIRIM
+
+📸 BUKTI PENGIRIMAN
+Bukti pengiriman Robux terlampir pada pesan ini.
+
+━━━━━━━━━━━━━━━━━━
+✅ PESANAN SELESAI
+
+Terima kasih sudah melakukan pembelian
+di Shine Store.`;
+
+  document.getElementById("out").textContent = currentInvoice;
+  document.getElementById("ok").textContent = "✓ Semua data berhasil dibaca.";
+}
+
+async function copyInvoice(){
+  if(!currentInvoice){
+    alert("Generate invoice dulu.");
+    return;
+  }
+  try{
+    await navigator.clipboard.writeText(currentInvoice);
+  }catch(e){
+    const ta=document.createElement("textarea");
+    ta.value=currentInvoice;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
+    ta.remove();
+  }
+  document.getElementById("ok").textContent="✓ Invoice berhasil dicopy.";
+}
+
+function openWA(){
+  if(!currentInvoice){
+    alert("Generate invoice dulu.");
+    return;
+  }
+  const phone="6285894428443";
+  window.open(
+    "https://wa.me/"+phone+"?text="+encodeURIComponent(currentInvoice),
+    "_blank"
+  );
+}
+</script>
+</body>
+</html>
