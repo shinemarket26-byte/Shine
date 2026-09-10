@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0d">
+  <title>Shine Store — Premium Robux Store</title>
+  <meta name="description" content="Shine Store — tempat beli Robux dengan proses cepat, aman, dan terpercaya.">
+  
+<style>
+:root{--bg:#050505;--card:#10100f;--card2:#15130f;--line:#2c2922;--gold:#d8b15f;--gold2:#f3d793;--muted:#969087;--green:#48d99b;--red:#ff7272}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 85% 0%,rgba(216,177,95,.13),transparent 30%),#050505;color:#f7f4ec;overflow-x:hidden}button,input{font:inherit}button{cursor:pointer}a{text-decoration:none;color:inherit}.wrap{width:min(680px,100%);margin:auto;padding:0 15px}
+.topbar{height:68px;position:sticky;top:0;z-index:50;background:rgba(5,5,5,.9);backdrop-filter:blur(18px);border-bottom:1px solid rgba(216,177,95,.13)}nav{height:68px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:950}.logo{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(145deg,#f6dc9d,#956725);color:#130f08;font-weight:1000;box-shadow:0 8px 25px rgba(216,177,95,.18)}.brand small{display:block;color:var(--gold);font-size:8px;letter-spacing:2.3px}.navicons{display:flex;gap:17px;color:var(--gold2);font-size:20px}
+.promo{background:linear-gradient(90deg,#9b6c28,#e0ba6b,#9b6c28);color:#110d06;padding:10px 0;font-size:11px;font-weight:900}.promo .wrap{display:flex;justify-content:space-between;align-items:center;gap:10px}.promo button{border:0;border-radius:99px;background:#090909;color:var(--gold2);padding:8px 13px;font-size:10px;font-weight:900}
+.hero{padding:24px 0 10px}.hero-card{min-height:360px;border:1px solid rgba(216,177,95,.23);border-radius:25px;padding:28px 23px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.8)),radial-gradient(circle at 75% 30%,rgba(216,177,95,.34),transparent 30%),linear-gradient(135deg,#282219,#0d0d0d 65%)}.hero-card:after{content:'S';position:absolute;right:-20px;bottom:-70px;font-size:270px;font-weight:1000;color:rgba(216,177,95,.055);line-height:1}.eyebrow{width:max-content;position:relative;z-index:1;border:1px solid rgba(243,215,147,.2);background:rgba(243,215,147,.06);padding:7px 11px;border-radius:99px;color:var(--gold2);font-size:9px;font-weight:900;letter-spacing:1.4px}.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:6px;box-shadow:0 0 10px var(--green)}.hero h1{position:relative;z-index:1;font-size:clamp(33px,8vw,56px);line-height:1.03;letter-spacing:-2px;margin:18px 0 13px}.hero h1 em{font-style:normal;color:var(--gold2)}.hero p{position:relative;z-index:1;color:#c7c1b5;font-size:13px;line-height:1.7;max-width:570px}.hero-btn{position:relative;z-index:1;width:max-content;margin-top:20px;padding:14px 19px;border:0;border-radius:13px;background:linear-gradient(135deg,#f0d38e,#a6752d);color:#130f08;font-weight:950}
+section{padding:24px 0}.card{background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.3)}.stephead{display:flex;align-items:center;gap:12px;margin-bottom:16px}.num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;flex:none;background:linear-gradient(145deg,#f0d18d,#a7752d);color:#120e08;font-weight:1000}.kicker{color:var(--gold);font-size:9px;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;margin-bottom:5px}.stephead h2{font-size:22px}.note{font-size:11px;color:var(--muted);line-height:1.65}.inputrow{display:flex;gap:8px;margin-top:12px}.input{width:100%;height:54px;border:1px solid #39352d;border-radius:13px;background:#090909;color:white;padding:0 14px;outline:none;font-size:15px}.input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(216,177,95,.08)}.search{width:54px;border:0;border-radius:13px;background:linear-gradient(145deg,#edcf88,#a7742c);color:#120e08;font-size:20px;font-weight:1000}.search:disabled{opacity:.5}
+.profile{display:none;margin-top:12px;padding:13px;border-radius:16px;border:1px solid #38342d;background:#090909;align-items:center;gap:12px}.profile.show{display:flex}.profile.selected{border-color:var(--gold);background:rgba(216,177,95,.08)}.avatar{width:58px;height:58px;border-radius:50%;object-fit:cover;background:#191919;border:2px solid #3c382f}.pinfo{min-width:0}.pinfo b{display:block;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pinfo span{display:block;color:var(--muted);font-size:11px;margin-top:3px}.verify{font-size:9px;color:#756f65;margin-top:5px}.pcheck{margin-left:auto;width:34px;height:34px;border-radius:50%;border:1px solid #474138;background:#111;color:transparent;font-weight:1000}.profile.selected .pcheck{background:var(--gold);border-color:var(--gold);color:#130f08}.error{display:none;color:var(--red);font-size:11px;margin-top:8px}.error.show{display:block}.success{display:none;color:var(--green);font-size:11px;font-weight:850;margin-top:10px}.success.show{display:block}
+.catalog{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-bottom:13px}.catalog h2{font-size:25px}.stock{font-size:9px;color:var(--green);font-weight:900}.products{display:grid;grid-template-columns:1fr 1fr;gap:10px}.product{padding:15px;border-radius:17px;border:1px solid #2b2924;background:#101010;overflow:hidden;position:relative}.product:after{content:'';position:absolute;width:90px;height:90px;border-radius:50%;right:-40px;top:-45px;background:rgba(216,177,95,.07);filter:blur(8px)}.ptop{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.ricon{width:35px;height:35px;border-radius:10px;display:grid;place-items:center;background:rgba(216,177,95,.08);color:var(--gold2)}.status{font-size:8px;font-weight:900;padding:5px 7px;border-radius:99px}.av{background:rgba(72,217,155,.08);color:var(--green)}.off{background:rgba(255,114,114,.08);color:var(--red)}.product h3{font-size:17px;margin-bottom:4px}.pprice{font-size:16px;font-weight:950;margin:18px 0 12px}.pbtn{width:100%;border:0;border-radius:11px;padding:11px;background:linear-gradient(135deg,#ecd08b,#a8762d);color:#130f08;font-size:10px;font-weight:950}.pbtn:disabled{opacity:.35}
+.custom{margin-top:10px;padding:17px;border-radius:18px;border:1px solid rgba(216,177,95,.24);background:linear-gradient(145deg,rgba(216,177,95,.09),rgba(255,255,255,.02))}.customtop{display:flex;justify-content:space-between;gap:10px}.custom h3{font-size:16px}.custom p{font-size:10px;color:var(--muted);margin-top:3px}.customrow{display:flex;gap:8px;margin-top:12px}.customrow input{height:48px}.customrow button{width:110px;border:0;border-radius:12px;background:var(--gold);color:#130f08;font-weight:950;font-size:11px}.selectedbox{display:none;margin-top:12px;padding:14px;border-radius:15px;border:1px solid var(--gold);background:rgba(216,177,95,.07)}.selectedbox.show{display:block}.selectedline{display:flex;justify-content:space-between;gap:10px;font-size:11px}.selectedline span{color:var(--muted)}.selectedtotal{font-size:20px;color:var(--gold2);font-weight:950;margin-top:8px}
+.payments{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}.pay{border:1px solid #302e29;background:#101010;color:white;border-radius:14px;padding:13px;text-align:left;display:flex;align-items:center;gap:10px}.pay.active{border-color:var(--gold);background:rgba(216,177,95,.09)}.payicon{width:35px;height:35px;border-radius:10px;background:#1b1a18;display:grid;place-items:center;color:var(--gold2);font-weight:1000}.pay b{font-size:12px}.pay small{display:block;color:var(--muted);font-size:9px;margin-top:2px}.continue,.wa{width:100%;height:52px;border:0;border-radius:13px;margin-top:13px;font-weight:950}.continue{background:linear-gradient(135deg,#ecd08b,#a8762d);color:#130f08}.continue:disabled{opacity:.35;cursor:not-allowed}.invoice{display:none}.invoice.show{display:block}.invtop{display:flex;justify-content:space-between;gap:10px}.invnum{color:var(--gold);font-size:9px;font-weight:900}.lines{border-top:1px solid var(--line);margin-top:14px}.line{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.045);font-size:11px}.line span{color:var(--muted)}.total{font-size:19px;color:var(--gold2);font-weight:950}.wa{background:#25d366;color:#06170d}.edit{width:100%;height:43px;margin-top:8px;border:1px solid #39352d;border-radius:11px;background:transparent;color:#aaa39a;font-size:11px;font-weight:800}footer{border-top:1px solid var(--line);padding:25px 0 45px;color:#69645d;font-size:10px;text-align:center}.gold{color:var(--gold)}.toast{position:fixed;left:50%;bottom:23px;transform:translate(-50%,20px);opacity:0;z-index:100;background:#17130d;border:1px solid #51462f;color:#f4dfaa;padding:11px 15px;border-radius:12px;font-size:11px;pointer-events:none;transition:.25s;white-space:nowrap}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(min-width:681px){.wrap{padding:0}.products{grid-template-columns:repeat(3,1fr)}.hero-card{min-height:390px;padding:42px}}
+</style>
+<body>
+<header class="topbar"><nav class="wrap"><a class="brand" href="#"><div class="logo">S</div><div>SHINE <small>PREMIUM STORE</small></div></a><div class="navicons"><span>✦</span><span>🛒</span><span>☰</span></div></nav></header>
+<div class="promo"><div class="wrap"><span>✦ Promo & layanan premium Shine Store</span><button onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">TOP UP</button></div></div>
+<main>
+<section class="hero wrap"><div class="hero-card"><div class="eyebrow"><i class="dot"></i> SHINE STORE ROBUX</div><h1>Top Up Robux yang <em>simple & premium.</em></h1><p>Masukkan username Roblox, pastikan profil yang muncul benar, pilih jumlah Robux, pilih metode pembayaran, lalu lanjutkan dengan invoice lengkap ke WhatsApp admin.</p><button class="hero-btn" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">✦ Top Up Sekarang</button></div></section>
+<section id="order" class="wrap"><div class="card"><div class="stephead"><div class="num">1</div><div><div class="kicker">Account Verification</div><h2>Masukkan Data Akun</h2></div></div><p class="note">Masukkan username Roblox. Setelah profil ditemukan, <b style="color:#eee">wajib klik profil</b> untuk memastikan akun yang dipilih benar.</p><div class="inputrow"><input id="username" class="input" autocomplete="off" placeholder="Username Roblox"><button id="searchBtn" class="search" onclick="findUser()">⌕</button></div><div id="userError" class="error"></div><div id="profile" class="profile" onclick="confirmProfile()"><img id="avatar" class="avatar" alt="Avatar Roblox"><div class="pinfo"><b id="displayName">-</b><span id="profileUsername">@-</span><div class="verify">Tap profil ini untuk konfirmasi akun</div></div><button class="pcheck" type="button" tabindex="-1" aria-hidden="true">✓</button></div><div id="success" class="success">✓ Akun Roblox berhasil dikonfirmasi.</div></div></section>
+<section class="wrap"><div class="card"><div class="stephead"><div class="num">2</div><div><div class="kicker">Robux</div><h2>Pilih Nominal</h2></div></div><div class="catalog"><div><div style="font-size:14px;font-weight:850">Nominal Robux</div><div class="note">Scroll untuk melihat semua pilihan.</div></div><div class="stock">● STOCK TERSEDIA</div></div><div id="productGrid" class="products"></div><div class="custom"><div class="customtop"><div><h3>Bebas Pilih Robux</h3><p>Minimum 5 · Maksimum 100 · Kelipatan 1</p></div><b style="color:var(--gold2)">✦</b></div><div class="customrow"><input id="customAmount" class="input" type="number" min="5" max="100" step="1" value="5" placeholder="5–100"><button onclick="selectCustom()">PILIH</button></div></div><div id="selectedBox" class="selectedbox"><div class="selectedline"><span>Robux dipilih</span><b id="selectedAmount">-</b></div><div class="selectedline" style="margin-top:6px"><span>Harga / Robux</span><b id="selectedRate">-</b></div><div id="selectedTotal" class="selectedtotal">Rp0</div></div></div></section>
+<section class="wrap"><div class="card"><div class="stephead"><div class="num">3</div><div><div class="kicker">Payment</div><h2>Pilih Pembayaran</h2></div></div><p class="note">Pilih salah satu metode pembayaran.</p><div class="payments"><button class="pay" data-method="GoPay" onclick="selectPayment(this)"><div class="payicon">G</div><div><b>GoPay</b><small>Dompet digital</small></div></button><button class="pay" data-method="ShopeePay" onclick="selectPayment(this)"><div class="payicon">S</div><div><b>ShopeePay</b><small>Dompet digital</small></div></button><button class="pay" data-method="DANA" onclick="selectPayment(this)"><div class="payicon">D</div><div><b>DANA</b><small>Dompet digital</small></div></button><button class="pay" data-method="OVO" onclick="selectPayment(this)"><div class="payicon">O</div><div><b>OVO</b><small>Dompet digital</small></div></button></div><button id="invoiceBtn" class="continue" disabled onclick="createInvoice()">Lanjutkan & Buat Invoice →</button></div></section>
+<section class="wrap"><div id="invoice" class="card invoice"><div class="invtop"><div><div class="kicker">Order Summary</div><h2 style="font-size:24px">Invoice Pesanan</h2></div><div id="invoiceId" class="invnum">#SHINE-00000000</div></div><div class="lines"><div class="line"><span>Tanggal</span><b id="iDate">-</b></div><div class="line"><span>Waktu</span><b id="iTime">-</b></div><div class="line"><span>Username Roblox</span><b id="iUser">-</b></div><div class="line"><span>Nama Profil</span><b id="iDisplay">-</b></div><div class="line"><span>Jumlah Robux</span><b id="iAmount">-</b></div><div class="line"><span>Harga / Robux</span><b id="iRate">-</b></div><div class="line"><span>Metode Pembayaran</span><b id="iPay">-</b></div><div class="line"><span>Total</span><b id="iTotal" class="total">-</b></div></div><button class="wa" onclick="sendWA()">💬 Lanjutkan ke WhatsApp</button><button class="edit" onclick="editOrder()">← Ubah Pesanan</button><p class="note" style="text-align:center;margin-top:11px">Invoice ini akan dikirim ke admin untuk konfirmasi pesanan dan pembayaran.</p></div></section>
+</main><footer><div class="wrap">© 2026 <span class="gold">Shine Store</span> · Fast · Simple · Premium</div></footer><div id="toast" class="toast"></div>
+<script>
+const ADMIN_WA="6285894428443";const HARGA_PER_ROBUX=200;const MIN_ROBUX=5;const MAX_ROBUX=100;
+const PRODUCTS = [
+  {id:1, robux:80, available:true},
+  {id:2, robux:400, available:true},
+  {id:3, robux:800, available:false},
+  {id:4, robux:1700, available:false},
+  {id:5, robux:4500, available:false},
+  {id:6, robux:10000, available:false}
+];
+let robloxUser=null,selectedAmount=null,selectedPayment="",invoice=null;
+function rupiah(n){return "Rp "+Number(n).toLocaleString("id-ID")}function getPrice(r){return r*HARGA_PER_ROBUX}
+function renderProducts(){document.getElementById("productGrid").innerHTML=PRODUCTS.map(p=>`<article class="product"><div class="ptop"><div class="ricon">◆</div><span class="status ${p.available?'av':'off'}">${p.available?'● Tersedia':'● Habis'}</span></div><h3>${p.robux.toLocaleString('id-ID')} R$</h3><div class="pprice">${rupiah(getPrice(p.robux))}</div><button class="pbtn" ${p.available?'':'disabled'} onclick="selectPreset(${p.robux})">${p.available?'Pilih Nominal →':'Stock Habis'}</button></article>`).join("")}
+function setSelectedAmount(a){selectedAmount=Number(a);document.getElementById("selectedAmount").textContent=selectedAmount.toLocaleString('id-ID')+" Robux";document.getElementById("selectedRate").textContent=rupiah(HARGA_PER_ROBUX);document.getElementById("selectedTotal").textContent=rupiah(getPrice(selectedAmount));document.getElementById("selectedBox").classList.add("show");updateContinue()}
+function selectPreset(a){setSelectedAmount(a);showToast(a.toLocaleString('id-ID')+" Robux dipilih");document.getElementById("selectedBox").scrollIntoView({behavior:'smooth',block:'center'})}
+function selectCustom(){const raw=Number(document.getElementById("customAmount").value);if(!Number.isInteger(raw)||raw<MIN_ROBUX||raw>MAX_ROBUX){showToast("Masukkan 5–100 Robux");return}setSelectedAmount(raw);showToast("Jumlah custom dipilih ✓")}
+document.getElementById("customAmount").addEventListener("keydown",e=>{if(e.key==='Enter')selectCustom()});
+async function findUser(){
+  const username=document.getElementById("username").value.trim();
+  const error=document.getElementById("userError");
+  const profile=document.getElementById("profile");
+  const success=document.getElementById("success");
+  const btn=document.getElementById("searchBtn");
+
+  error.classList.remove("show");
+  profile.classList.remove("show","selected");
+  success.classList.remove("show");
+  robloxUser=null;
+  updateContinue();
+
+  if(!username){
+    error.textContent="Username Roblox wajib diisi.";
+    error.classList.add("show");
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent="…";
+
+  try{
+    // Lewat Vercel serverless API agar tidak terkena CORS browser.
+    const res=await fetch("/api/roblox-user?username="+encodeURIComponent(username),{
+      method:"GET",
+      cache:"no-store",
+      headers:{"Accept":"application/json"}
+    });
+
+    let data={};
+    try{ data=await res.json(); }catch(_){ data={}; }
+
+    if(!res.ok || !data.success || !data.user || !data.user.id){
+      error.textContent=data.message || data.error || "Profil Roblox tidak ditemukan. Coba lagi.";
+      error.classList.add("show");
+      return;
+    }
+
+    robloxUser={
+      id:data.user.id,
+      username:data.user.username,
+      displayName:data.user.displayName || data.user.username,
+      avatar:data.user.avatar || ""
+    };
+
+    const avatarEl=document.getElementById("avatar");
+    avatarEl.src=robloxUser.avatar || "data:image/svg+xml;charset=UTF-8,"+encodeURIComponent(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150"><rect width="150" height="150" rx="24" fill="#1b1a17"/><text x="75" y="92" text-anchor="middle" font-family="Arial" font-size="64" fill="#e7bf68">${String(robloxUser.username).charAt(0).toUpperCase()}</text></svg>`
+    );
+    document.getElementById("displayName").textContent=robloxUser.displayName;
+    document.getElementById("profileUsername").textContent="@"+robloxUser.username;
+    profile.classList.add("show");
+
+    // Belum dianggap valid sampai customer benar-benar klik profil.
+    profile.scrollIntoView({behavior:"smooth",block:"center"});
+  }catch(err){
+    console.error(err);
+    error.textContent="Profil Roblox tidak bisa dimuat. Pastikan website sudah dideploy dengan folder /api lalu coba lagi.";
+    error.classList.add("show");
+  }finally{
+    btn.disabled=false;
+    btn.textContent="⌕";
+  }
+}
+function confirmProfile(){if(!robloxUser)return;document.getElementById('profile').classList.add('selected');document.getElementById('success').classList.add('show');updateContinue();showToast('Akun dikonfirmasi ✓')}
+function selectPayment(b){document.querySelectorAll('.pay').forEach(x=>x.classList.remove('active'));b.classList.add('active');selectedPayment=b.dataset.method;updateContinue()}
+function updateContinue(){const confirmed=document.getElementById('profile').classList.contains('selected');document.getElementById('invoiceBtn').disabled=!(confirmed&&selectedAmount!==null&&selectedPayment)}
+function createInvoice(){if(!robloxUser||selectedAmount===null||!selectedPayment){showToast('Lengkapi akun, nominal, dan pembayaran');return}const d=new Date(),date=d.toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}),time=d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}),id='SHINE-'+Date.now().toString().slice(-8);invoice={id,date,time,username:robloxUser.username,display:robloxUser.displayName,amount:selectedAmount,rate:HARGA_PER_ROBUX,pay:selectedPayment,total:getPrice(selectedAmount)};document.getElementById('invoiceId').textContent='#'+id;document.getElementById('iDate').textContent=date;document.getElementById('iTime').textContent=time+' WIB';document.getElementById('iUser').textContent=invoice.username;document.getElementById('iDisplay').textContent=invoice.display;document.getElementById('iAmount').textContent=invoice.amount.toLocaleString('id-ID')+' Robux';document.getElementById('iRate').textContent=rupiah(invoice.rate);document.getElementById('iPay').textContent=invoice.pay;document.getElementById('iTotal').textContent=rupiah(invoice.total);document.getElementById('invoice').classList.add('show');setTimeout(()=>document.getElementById('invoice').scrollIntoView({behavior:'smooth'}),100)}
+function sendWA(){if(!invoice)return;const x=invoice,msg=`✨ *SHINE STORE*\n━━━━━━━━━━━━━━━━━━\n🧾 *INVOICE PESANAN*\n\n🔖 Invoice: *#${x.id}*\n📅 Tanggal: ${x.date}\n⏰ Waktu: ${x.time} WIB\n\n👤 *DATA AKUN*\n• Username: *${x.username}*\n• Nama Profil: ${x.display}\n\n💎 *DETAIL PESANAN*\n• Robux: *${x.amount.toLocaleString('id-ID')} Robux*\n• Harga/Robux: ${rupiah(x.rate)}\n• Total: *${rupiah(x.total)}*\n\n💳 *PEMBAYARAN*\n• Metode: *${x.pay}*\n\n━━━━━━━━━━━━━━━━━━\n⏳ Status: *Menunggu Konfirmasi*\n\nHalo Admin Shine Store, saya ingin melanjutkan pesanan ini. Mohon konfirmasi detail pesanan dan pembayaran.\n\nTerima kasih 🙏\n✨ *SHINE STORE*`;window.open('https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent(msg),'_blank')}
+function editOrder(){document.getElementById('invoice').classList.remove('show');document.getElementById('order').scrollIntoView({behavior:'smooth'})}function showToast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>e.classList.remove('show'),2400)}document.getElementById('username').addEventListener('keydown',e=>{if(e.key==='Enter')findUser()});renderProducts();
+</script></body></html>
