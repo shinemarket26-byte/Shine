@@ -30,7 +30,24 @@ section{padding:24px 0}.card{background:linear-gradient(145deg,rgba(255,255,255,
 <section class="wrap"><div class="card"><div class="stephead"><div class="num">3</div><div><div class="kicker">Payment</div><h2>Pilih Pembayaran</h2></div></div><p class="note">Pilih salah satu metode pembayaran.</p><div class="payments"><button class="pay" data-method="GoPay" onclick="selectPayment(this)"><div class="payicon">G</div><div><b>GoPay</b><small>Dompet digital</small></div></button><button class="pay" data-method="ShopeePay" onclick="selectPayment(this)"><div class="payicon">S</div><div><b>ShopeePay</b><small>Dompet digital</small></div></button><button class="pay" data-method="DANA" onclick="selectPayment(this)"><div class="payicon">D</div><div><b>DANA</b><small>Dompet digital</small></div></button><button class="pay" data-method="OVO" onclick="selectPayment(this)"><div class="payicon">O</div><div><b>OVO</b><small>Dompet digital</small></div></button></div><button id="invoiceBtn" class="continue" disabled onclick="createInvoice()">Lanjutkan & Buat Invoice →</button></div></section>
 <section class="wrap"><div id="invoice" class="card invoice"><div class="invtop"><div><div class="kicker">Order Summary</div><h2 style="font-size:24px">Invoice Pesanan</h2></div><div id="invoiceId" class="invnum">#SHINE-00000000</div></div><div class="lines"><div class="line"><span>Tanggal</span><b id="iDate">-</b></div><div class="line"><span>Waktu</span><b id="iTime">-</b></div><div class="line"><span>Username Roblox</span><b id="iUser">-</b></div><div class="line"><span>Nama Profil</span><b id="iDisplay">-</b></div><div class="line"><span>Jumlah Robux</span><b id="iAmount">-</b></div><div class="line"><span>Harga / Robux</span><b id="iRate">-</b></div><div class="line"><span>Metode Pembayaran</span><b id="iPay">-</b></div><div class="line"><span>Total</span><b id="iTotal" class="total">-</b></div></div><button class="wa" onclick="sendWA()">💬 Lanjutkan ke WhatsApp</button><button class="edit" onclick="editOrder()">← Ubah Pesanan</button><p class="note" style="text-align:center;margin-top:11px">Invoice ini akan dikirim ke admin untuk konfirmasi pesanan dan pembayaran.</p></div></section>
 </main><footer><div class="wrap">© 2026 <span class="gold">Shine Store</span> · Fast · Simple · Premium</div></footer><div id="toast" class="toast"></div>
-<script>
+
+  <div class="terms-title">Syarat & Ketentuan</div>
+  <ul class="terms-list">
+    <li>Pastikan username dan profil Roblox yang dipilih sudah benar sebelum pesanan dilanjutkan.</li>
+    <li>Pastikan jumlah Robux dan metode pembayaran yang tertera di invoice sudah sesuai.</li>
+    <li>Pesanan diproses setelah pembayaran dan detail pesanan dikonfirmasi oleh admin Shine Store.</li>
+    <li>Kesalahan username atau data akun yang diberikan customer menjadi tanggung jawab customer.</li>
+    <li>Jangan pernah memberikan password, PIN, OTP, atau informasi keamanan akun Roblox kepada siapa pun.</li>
+    <li>Dengan melanjutkan ke WhatsApp, customer menyatakan telah membaca dan menyetujui Syarat & Ketentuan Shine Store.</li>
+  </ul>
+  <label class="agree">
+    <input id="agreeTerms" type="checkbox" onchange="updateWAButton()">
+    <span>Saya sudah membaca dan menyetujui <b>Syarat & Ketentuan</b> Shine Store.</span>
+  </label>
+  <div id="termsError" class="terms-error">Centang persetujuan Syarat & Ketentuan terlebih dahulu.</div>
+</div>
+  
+  <script>
 const ADMIN_WA="6285894428443";const HARGA_PER_ROBUX=200;const MIN_ROBUX=5;const MAX_ROBUX=100;
 const PRODUCTS = [
   {id:1, robux:80, available:true},
