@@ -27,7 +27,45 @@ section{padding:24px 0}.card{background:linear-gradient(145deg,rgba(255,255,255,
 <section class="hero wrap"><div class="hero-card"><div class="eyebrow"><i class="dot"></i> SHINE STORE ROBUX</div><h1>Top Up Robux yang <em>simple & premium.</em></h1><p>Masukkan username Roblox, pastikan profil yang muncul benar, pilih jumlah Robux, pilih metode pembayaran, lalu lanjutkan dengan invoice lengkap ke WhatsApp admin.</p><button class="hero-btn" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">✦ Top Up Sekarang</button></div></section>
 <section id="order" class="wrap"><div class="card"><div class="stephead"><div class="num">1</div><div><div class="kicker">Account Verification</div><h2>Masukkan Data Akun</h2></div></div><p class="note">Masukkan username Roblox. Setelah profil ditemukan, <b style="color:#eee">wajib klik profil</b> untuk memastikan akun yang dipilih benar.</p><div class="inputrow"><input id="username" class="input" autocomplete="off" placeholder="Username Roblox"><button id="searchBtn" class="search" onclick="findUser()">⌕</button></div><div id="userError" class="error"></div><div id="profile" class="profile" onclick="confirmProfile()"><img id="avatar" class="avatar" alt="Avatar Roblox"><div class="pinfo"><b id="displayName">-</b><span id="profileUsername">@-</span><div class="verify">Tap profil ini untuk konfirmasi akun</div></div><button class="pcheck" type="button" tabindex="-1" aria-hidden="true">✓</button></div><div id="success" class="success">✓ Akun Roblox berhasil dikonfirmasi.</div></div></section>
 <section class="wrap"><div class="card"><div class="stephead"><div class="num">2</div><div><div class="kicker">Robux</div><h2>Pilih Nominal</h2></div></div><div class="catalog"><div><div style="font-size:14px;font-weight:850">Nominal Robux</div><div class="note">Scroll untuk melihat semua pilihan.</div></div><div class="stock">● STOCK TERSEDIA</div></div><div id="productGrid" class="products"></div><div class="custom"><div class="customtop"><div><h3>Bebas Pilih Robux</h3><p>Minimum 5 · Maksimum 1000 · Kelipatan 1</p></div><b style="color:var(--gold2)">✦</b></div><div class="customrow"><input id="customAmount" class="input" type="number" min="5" max="1000" step="1" value="5" placeholder="5–1000"><button onclick="selectCustom()">PILIH</button></div></div><div id="selectedBox" class="selectedbox"><div class="selectedline"><span>Robux dipilih</span><b id="selectedAmount">-</b></div><div class="selectedline" style="margin-top:6px"><span>Harga / Robux</span><b id="selectedRate">-</b></div><div id="selectedTotal" class="selectedtotal">Rp0</div></div></div></section>
-<section class="wrap"><div class="card"><div class="stephead"><div class="num">3</div><div><div class="kicker">Payment</div><h2>Pilih Pembayaran</h2></div></div><p class="note">Pilih salah satu metode pembayaran.</p><div class="payments"><button class="pay" data-method="GoPay" onclick="selectPayment(this)"><div class="payicon">G</div><div><b>GoPay</b><small>Dompet digital</small></div></button><button class="pay" data-method="ShopeePay" onclick="selectPayment(this)"><div class="payicon">S</div><div><b>ShopeePay</b><small>Dompet digital</small></div></button><button class="pay" data-method="DANA" onclick="selectPayment(this)"><div class="payicon">D</div><div><b>DANA</b><small>Dompet digital</small></div></button><button class="pay" data-method="OVO" onclick="selectPayment(this)"><div class="payicon">O</div><div><b>OVO</b><small>Dompet digital</small></div></button></div><button id="invoiceBtn" class="continue" disabled onclick="createInvoice()">Lanjutkan & Buat Invoice →</button></div></section>
+<section class="wrap"><div class="card"><div class="stephead"><div class="num">3</div><div><div class="kicker">Payment</div><h2>Pilih Pembayaran</h2></div></div><p class="note">Pilih salah satu metode pembayaran.</p><div class="payments"><button class="pay" data-method="GoPay" onclick="selectPayment(this)"><div class="payicon">G</div><div><b>GoPay</b><small>Dompet digital</small></div></button><button class="pay" data-method="ShopeePay" onclick="selectPayment(this)"><div class="payicon">S</div><div><b>ShopeePay</b><small>Dompet digital</small></div></button><button class="pay" data-method="DANA" onclick="selectPayment(this)"><div class="payicon">D</div><div><b>DANA</b><small>Dompet digital</small></div></button><button class="pay" data-method="OVO" onclick="selectPayment(this)"><div class="payicon">O</div><div><b>OVO</b><small>Dompet digital</small></div></button></div> <div id="paymentInfo" style="
+  display:none;
+  margin-top:12px;
+  padding:15px;
+  border-radius:15px;
+  border:1px solid var(--gold);
+  background:rgba(216,177,95,.07);
+">
+  <div style="font-size:10px;color:var(--gold);font-weight:900;letter-spacing:1px">
+    INFORMASI PEMBAYARAN
+  </div>
+
+  <div id="paymentMethodInfo"
+       style="font-size:16px;font-weight:900;margin-top:7px">
+    -
+  </div>
+
+  <div style="margin-top:10px;font-size:11px;color:var(--muted)">
+    Nomor / tujuan pembayaran
+  </div>
+
+  <div id="paymentNumberInfo"
+       style="font-size:17px;font-weight:900;margin-top:3px">
+    -
+  </div>
+
+  <div style="margin-top:8px;font-size:11px;color:var(--muted)">
+    Atas Nama
+  </div>
+
+  <div id="paymentNameInfo"
+       style="font-size:14px;font-weight:800;margin-top:3px">
+    -
+  </div>
+
+  <div style="margin-top:12px;font-size:10px;color:var(--muted);line-height:1.5">
+    Pastikan nomor dan nama penerima sudah benar sebelum melakukan pembayaran.
+  </div>
+</div><button id="invoiceBtn" class="continue" disabled onclick="createInvoice()">Lanjutkan & Buat Invoice →</button></div></section>
 <section class="wrap"><div id="invoice" class="card invoice"><div class="invtop"><div><div class="kicker">Order Summary</div><h2 style="font-size:24px">Invoice Pesanan</h2></div><div id="invoiceId" class="invnum">#SHINE-00000000</div></div><div class="lines"><div class="line"><span>Tanggal</span><b id="iDate">-</b></div><div class="line"><span>Waktu</span><b id="iTime">-</b></div><div class="line"><span>Username Roblox</span><b id="iUser">-</b></div><div class="line"><span>Nama Profil</span><b id="iDisplay">-</b></div><div class="line"><span>Jumlah Robux</span><b id="iAmount">-</b></div><div class="line"><span>Harga / Robux</span><b id="iRate">-</b></div><div class="line"><span>Metode Pembayaran</span><b id="iPay">-</b></div><div class="line"><span>Total</span><b id="iTotal" class="total">-</b></div></div><button class="wa" onclick="sendWA()">💬 Lanjutkan ke WhatsApp</button><button class="edit" onclick="editOrder()">← Ubah Pesanan</button><p class="note" style="text-align:center;margin-top:11px">Invoice ini akan dikirim ke admin untuk konfirmasi pesanan dan pembayaran.</p></div></section>
 </main><footer><div class="wrap">© 2026 <span class="gold">Shine Store</span> · Fast · Simple · Premium</div></footer><div id="toast" class="toast"></div>
 
@@ -40,7 +78,8 @@ const PRODUCTS = [
   {id:4, robux:250, available:true},
   {id:5, robux:500, available:true},
   {id:6, robux:1000, available:true}
-  const PAYMENT_INFO = {
+];
+    const PAYMENT_INFO = {
   "GoPay": {
     number: "08xxxxxxxxxx",
     name: "Nama Admin"
@@ -61,7 +100,6 @@ const PRODUCTS = [
     name: "Nama Admin"
   }
 };
-];
 let robloxUser=null,selectedAmount=null,selectedPayment="",invoice=null;
 function rupiah(n){return "Rp "+Number(n).toLocaleString("id-ID")}function getPrice(r){return r*HARGA_PER_ROBUX}
 function renderProducts(){document.getElementById("productGrid").innerHTML=PRODUCTS.map(p=>`<article class="product"><div class="ptop"><div class="ricon">◆</div><span class="status ${p.available?'av':'off'}">${p.available?'● Tersedia':'● Habis'}</span></div><h3>${p.robux.toLocaleString('id-ID')} R$</h3><div class="pprice">${rupiah(getPrice(p.robux))}</div><button class="pbtn" ${p.available?'':'disabled'} onclick="selectPreset(${p.robux})">${p.available?'Pilih Nominal →':'Stock Habis'}</button></article>`).join("")}
@@ -135,7 +173,24 @@ async function findUser(){
   }
 }
 function confirmProfile(){if(!robloxUser)return;document.getElementById('profile').classList.add('selected');document.getElementById('success').classList.add('show');updateContinue();showToast('Akun dikonfirmasi ✓')}
-function selectPayment(b){document.querySelectorAll('.pay').forEach(x=>x.classList.remove('active'));b.classList.add('active');selectedPayment=b.dataset.method;updateContinue()}
+function selectPayment(b){
+  document.querySelectorAll('.pay').forEach(x => x.classList.remove('active'));
+
+  b.classList.add('active');
+
+  selectedPayment = b.dataset.method;
+
+  const info = PAYMENT_INFO[selectedPayment];
+
+  if(info){
+    document.getElementById("paymentInfo").style.display = "block";
+    document.getElementById("paymentMethodInfo").textContent = selectedPayment;
+    document.getElementById("paymentNumberInfo").textContent = info.number;
+    document.getElementById("paymentNameInfo").textContent = info.name;
+  }
+
+  updateContinue();
+}
 function updateContinue(){const confirmed=document.getElementById('profile').classList.contains('selected');document.getElementById('invoiceBtn').disabled=!(confirmed&&selectedAmount!==null&&selectedPayment)}async function createInvoice(){
 
   if(!robloxUser || selectedAmount===null || !selectedPayment){
