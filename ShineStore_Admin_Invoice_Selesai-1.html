@@ -1,0 +1,49 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shine Store Admin</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#08090c;color:#eee;font-family:Arial;padding:20px}.wrap{max-width:650px;margin:auto}.gold{color:#d6b56c;letter-spacing:3px;font-size:12px}.title{font-size:28px;font-weight:800;margin:8px 0}.sub{color:#999;margin-bottom:18px}.card{background:#111318;border:1px solid #292c33;border-radius:18px;padding:16px;margin:12px 0}label{display:block;color:#aaa;font-size:12px;margin-bottom:7px}textarea,.out{width:100%;background:#090a0d;color:#eee;border:1px solid #30333a;border-radius:12px;padding:13px}.out{white-space:pre-wrap;line-height:1.55;min-height:260px;font-size:13px}textarea{min-height:190px;resize:vertical}button{width:100%;padding:14px;margin-top:10px;border:0;border-radius:12px;font-weight:800}.gen{background:#d1ad61}.copy{background:#eee}.wa{background:#20aa5b;color:#fff}.ok{color:#8ee2a8;margin-top:10px;font-size:13px}</style></head>
+<body><div class="wrap"><div class="gold">SHINE STORE</div><div class="title">Invoice Pesanan Selesai</div><div class="sub">Paste invoice customer → otomatis jadi invoice selesai.</div>
+<div class="card"><label>PASTE INVOICE CUSTOMER</label><textarea id="inp" placeholder="Paste invoice dari WhatsApp di sini..."></textarea><button class="gen" onclick="gen()">⚡ Generate Invoice Selesai</button><div id="ok" class="ok"></div></div>
+<div class="card"><label>HASIL INVOICE</label><div id="out" class="out">Belum ada invoice.</div><button class="copy" onclick="copyIt()">📋 Copy Invoice</button><button class="wa" onclick="wa()">💬 Buka WhatsApp Admin</button></div></div>
+<script>
+let d={};
+function g(t,rs,f='-'){for(const r of rs){let m=t.match(r);if(m)return m[1].trim()}return f}
+function rp(x){let n=Number(String(x).replace(/\D/g,''))||0;return 'Rp '+n.toLocaleString('id-ID')}
+function gen(){let t=document.getElementById('inp').value.trim();if(!t)return alert('Paste invoice customer dulu.');
+d.invoice=g(t,[/Invoice\s*:\s*#?([^\n]+)/i]);d.username=g(t,[/Username\s*:\s*([^\n]+)/i]);d.display=g(t,[/Nama Profil\s*:\s*([^\n]+)/i,/Display Name\s*:\s*([^\n]+)/i]);d.robux=g(t,[/Robux\s*:\s*([\d.,]+)\s*Robux/i]);d.rate=g(t,[/Harga\s*\/\s*Robux\s*:\s*Rp\s*([\d.,]+)/i],'200');d.total=g(t,[/Total\s*:\s*Rp\s*([\d.,]+)/i],rp(Number(d.robux.replace(/\D/g,''))*Number(d.rate.replace(/\D/g,''))));d.pay=g(t,[/Metode\s*:\s*([^\n]+)/i]);d.date=g(t,[/Tanggal\s*:\s*([^\n]+)/i],new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}));d.time=g(t,[/Waktu\s*:\s*([^\n]+)/i],new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'}));
+let s=`✨ SHINE STORE
+━━━━━━━━━━━━━━━━━━
+🧾 INVOICE PESANAN SELESAI
+
+🔖 Invoice: #${d.invoice}
+📅 Tanggal: ${d.date}
+⏰ Waktu: ${d.time}
+
+👤 DATA AKUN
+• Username: ${d.username}
+• Nama Profil: ${d.display}
+
+💎 DETAIL PESANAN
+• Robux: ${d.robux} Robux
+• Harga/Robux: ${rp(d.rate)}
+• Total: ${d.total}
+
+💳 PEMBAYARAN
+• Metode: ${d.pay}
+• Status Pembayaran: ✅ TERVERIFIKASI
+
+📦 STATUS PESANAN
+• Status: ✅ SELESAI
+• Robux: ${d.robux} Robux
+• Status Pengiriman: ✅ BERHASIL DIKIRIM
+
+📸 BUKTI PENGIRIMAN
+Bukti pengiriman Robux terlampir pada pesan ini.
+
+━━━━━━━━━━━━━━━━━━
+✅ PESANAN SELESAI
+
+Terima kasih sudah melakukan pembelian
+di Shine Store.`;
+document.getElementById('out').textContent=s;document.getElementById('ok').textContent='✓ Berhasil dibuat.'}
+async function copyIt(){let s=document.getElementById('out').textContent;if(s==='Belum ada invoice.')return alert('Generate dulu.');await navigator.clipboard.writeText(s);document.getElementById('ok').textContent='✓ Berhasil dicopy.'}
+function wa(){let s=document.getElementById('out').textContent;if(s==='Belum ada invoice.')return alert('Generate dulu.');window.open('https://wa.me/6285894428443?text='+encodeURIComponent(s),'_blank')}
+</script></body></html>
