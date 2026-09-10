@@ -78,7 +78,8 @@ const PRODUCTS = [
   {id:4, robux:250, available:true},
   {id:5, robux:500, available:true},
   {id:6, robux:1000, available:true}
-  const PAYMENT_INFO = {
+];
+    const PAYMENT_INFO = {
   "GoPay": {
     number: "08xxxxxxxxxx",
     name: "Nama Admin"
@@ -99,7 +100,6 @@ const PRODUCTS = [
     name: "Nama Admin"
   }
 };
-];
 let robloxUser=null,selectedAmount=null,selectedPayment="",invoice=null;
 function rupiah(n){return "Rp "+Number(n).toLocaleString("id-ID")}function getPrice(r){return r*HARGA_PER_ROBUX}
 function renderProducts(){document.getElementById("productGrid").innerHTML=PRODUCTS.map(p=>`<article class="product"><div class="ptop"><div class="ricon">◆</div><span class="status ${p.available?'av':'off'}">${p.available?'● Tersedia':'● Habis'}</span></div><h3>${p.robux.toLocaleString('id-ID')} R$</h3><div class="pprice">${rupiah(getPrice(p.robux))}</div><button class="pbtn" ${p.available?'':'disabled'} onclick="selectPreset(${p.robux})">${p.available?'Pilih Nominal →':'Stock Habis'}</button></article>`).join("")}
