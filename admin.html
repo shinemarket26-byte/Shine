@@ -224,10 +224,23 @@ body{
 
 <script>
 
-let orders = JSON.parse(
-  localStorage.getItem("shine_orders") || "[]"
-);
+let orders = [];
 
+async function loadOrders(){
+  try{
+    const response = await fetch('/api/orders');
+    const data = await response.json();
+
+    if(data.success){
+      orders = data.orders || [];
+      render();
+    }
+  }catch(error){
+    console.error(error);
+  }
+}
+
+loadOrders();
 function render(){
 
   const list = document.getElementById("orderList");
