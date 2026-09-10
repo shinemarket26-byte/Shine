@@ -381,6 +381,9 @@ async function changeStatus(id){
   }
         }
 render();
+  if(sessionStorage.getItem('shine_admin') !== 'true'){
+  window.location.href = '/admin-login.html';
+  }
 
 </script>
 
