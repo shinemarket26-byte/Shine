@@ -278,9 +278,9 @@ function render(){
           #${order.id}
         </div>
 
-        <div class="status ${order.status}">
-          ${getStatus(order.status)}
-        </div>
+        <button class="status ${order.status}" onclick="changeStatus('${order.id}')">
+  ${getStatus(order.status)}
+</button>
 
       </div>
 
