@@ -224,6 +224,8 @@ function selectPayment(b){
     document.getElementById("paymentMethodInfo").textContent = selectedPayment;
     document.getElementById("paymentNumberInfo").textContent = info.number;
     document.getElementById("paymentNameInfo").textContent = info.name;
+
+    document.getElementById("paymentAction").style.display = "block";
   }
 
   updateContinue();
