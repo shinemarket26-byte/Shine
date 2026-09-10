@@ -40,6 +40,27 @@ const PRODUCTS = [
   {id:4, robux:250, available:true},
   {id:5, robux:500, available:true},
   {id:6, robux:1000, available:true}
+  const PAYMENT_INFO = {
+  "GoPay": {
+    number: "08xxxxxxxxxx",
+    name: "Nama Admin"
+  },
+
+  "ShopeePay": {
+    number: "08xxxxxxxxxx",
+    name: "Nama Admin"
+  },
+
+  "DANA": {
+    number: "08xxxxxxxxxx",
+    name: "Nama Admin"
+  },
+
+  "OVO": {
+    number: "08xxxxxxxxxx",
+    name: "Nama Admin"
+  }
+};
 ];
 let robloxUser=null,selectedAmount=null,selectedPayment="",invoice=null;
 function rupiah(n){return "Rp "+Number(n).toLocaleString("id-ID")}function getPrice(r){return r*HARGA_PER_ROBUX}
