@@ -32,14 +32,14 @@ section{padding:24px 0}.card{background:linear-gradient(145deg,rgba(255,255,255,
 </main><footer><div class="wrap">© 2026 <span class="gold">Shine Store</span> · Fast · Simple · Premium</div></footer><div id="toast" class="toast"></div>
 
   <script>
-const ADMIN_WA="6285894428443";const HARGA_PER_ROBUX=200;const MIN_ROBUX=5;const MAX_ROBUX=100;
+const ADMIN_WA="6285894428443";const HARGA_PER_ROBUX=200;const MIN_ROBUX=5;const MAX_ROBUX=1000;
 const PRODUCTS = [
-  {id:1, robux:80, available:true},
-  {id:2, robux:400, available:true},
-  {id:3, robux:800, available:false},
-  {id:4, robux:1700, available:false},
-  {id:5, robux:4500, available:false},
-  {id:6, robux:10000, available:false}
+  {id:1, robux:10, available:true},
+  {id:2, robux:50, available:true},
+  {id:3, robux:100, available:true},
+  {id:4, robux:250, available:true},
+  {id:5, robux:500, available:true},
+  {id:6, robux:1000, available:true}
 ];
 let robloxUser=null,selectedAmount=null,selectedPayment="",invoice=null;
 function rupiah(n){return "Rp "+Number(n).toLocaleString("id-ID")}function getPrice(r){return r*HARGA_PER_ROBUX}
