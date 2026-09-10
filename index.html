@@ -115,8 +115,92 @@ async function findUser(){
 }
 function confirmProfile(){if(!robloxUser)return;document.getElementById('profile').classList.add('selected');document.getElementById('success').classList.add('show');updateContinue();showToast('Akun dikonfirmasi ✓')}
 function selectPayment(b){document.querySelectorAll('.pay').forEach(x=>x.classList.remove('active'));b.classList.add('active');selectedPayment=b.dataset.method;updateContinue()}
-function updateContinue(){const confirmed=document.getElementById('profile').classList.contains('selected');document.getElementById('invoiceBtn').disabled=!(confirmed&&selectedAmount!==null&&selectedPayment)}
-function createInvoice(){if(!robloxUser||selectedAmount===null||!selectedPayment){showToast('Lengkapi akun, nominal, dan pembayaran');return}const d=new Date(),date=d.toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'}),time=d.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}),id='SHINE-'+Date.now().toString().slice(-8);invoice={id,date,time,username:robloxUser.username,display:robloxUser.displayName,amount:selectedAmount,rate:HARGA_PER_ROBUX,pay:selectedPayment,total:getPrice(selectedAmount)};document.getElementById('invoiceId').textContent='#'+id;document.getElementById('iDate').textContent=date;document.getElementById('iTime').textContent=time+' WIB';document.getElementById('iUser').textContent=invoice.username;document.getElementById('iDisplay').textContent=invoice.display;document.getElementById('iAmount').textContent=invoice.amount.toLocaleString('id-ID')+' Robux';document.getElementById('iRate').textContent=rupiah(invoice.rate);document.getElementById('iPay').textContent=invoice.pay;document.getElementById('iTotal').textContent=rupiah(invoice.total);document.getElementById('invoice').classList.add('show');setTimeout(()=>document.getElementById('invoice').scrollIntoView({behavior:'smooth'}),100)}
+function updateContinue(){const confirmed=document.getElementById('profile').classList.contains('selected');document.getElementById('invoiceBtn').disabled=!(confirmed&&selectedAmount!==null&&selectedPayment)}async function createInvoice(){
+
+  if(!robloxUser || selectedAmount===null || !selectedPayment){
+    showToast('Lengkapi akun, nominal, dan pembayaran');
+    return;
+  }
+
+  const d = new Date();
+
+  const date = d.toLocaleDateString('id-ID',{
+    day:'2-digit',
+    month:'long',
+    year:'numeric'
+  });
+
+  const time = d.toLocaleTimeString('id-ID',{
+    hour:'2-digit',
+    minute:'2-digit',
+    second:'2-digit',
+    hour12:false
+  });
+
+  const id = 'SHINE-' + Date.now().toString().slice(-8);
+
+  invoice = {
+    id,
+    date,
+    time,
+    username:robloxUser.username,
+    display:robloxUser.displayName,
+    amount:selectedAmount,
+    rate:HARGA_PER_ROBUX,
+    pay:selectedPayment,
+    total:getPrice(selectedAmount),
+    status:"waiting"
+  };
+
+  // Simpan order ke server
+  try{
+
+    const response = await fetch('/api/orders',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(invoice)
+    });
+
+    const data = await response.json();
+
+    if(!response.ok || !data.success){
+      showToast('Gagal menyimpan pesanan');
+      return;
+    }
+
+  }catch(error){
+
+    console.error(error);
+    showToast('Server tidak bisa dihubungi');
+    return;
+
+  }
+
+  // Tampilkan invoice
+  document.getElementById('invoiceId').textContent='#'+id;
+  document.getElementById('iDate').textContent=date;
+  document.getElementById('iTime').textContent=time+' WIB';
+  document.getElementById('iUser').textContent=invoice.username;
+  document.getElementById('iDisplay').textContent=invoice.display;
+  document.getElementById('iAmount').textContent=
+    invoice.amount.toLocaleString('id-ID')+' Robux';
+  document.getElementById('iRate').textContent=
+    rupiah(invoice.rate);
+  document.getElementById('iPay').textContent=
+    invoice.pay;
+  document.getElementById('iTotal').textContent=
+    rupiah(invoice.total);
+
+  document.getElementById('invoice').classList.add('show');
+
+  setTimeout(()=>{
+    document.getElementById('invoice').scrollIntoView({
+      behavior:'smooth'
+    });
+  },100);
+}
 function sendWA(){if(!invoice)return;const x=invoice,msg=`✨ *SHINE STORE*\n━━━━━━━━━━━━━━━━━━\n🧾 *INVOICE PESANAN*\n\n🔖 Invoice: *#${x.id}*\n📅 Tanggal: ${x.date}\n⏰ Waktu: ${x.time} WIB\n\n👤 *DATA AKUN*\n• Username: *${x.username}*\n• Nama Profil: ${x.display}\n\n💎 *DETAIL PESANAN*\n• Robux: *${x.amount.toLocaleString('id-ID')} Robux*\n• Harga/Robux: ${rupiah(x.rate)}\n• Total: *${rupiah(x.total)}*\n\n💳 *PEMBAYARAN*\n• Metode: *${x.pay}*\n\n━━━━━━━━━━━━━━━━━━\n⏳ Status: *Menunggu Konfirmasi*\n\nHalo Admin Shine Store, saya ingin melanjutkan pesanan ini. Mohon konfirmasi detail pesanan dan pembayaran.\n\nTerima kasih 🙏\n✨ *SHINE STORE*`;window.open('https://wa.me/'+ADMIN_WA+'?text='+encodeURIComponent(msg),'_blank')}
 function editOrder(){document.getElementById('invoice').classList.remove('show');document.getElementById('order').scrollIntoView({behavior:'smooth'})}function showToast(t){const e=document.getElementById('toast');e.textContent=t;e.classList.add('show');clearTimeout(window.__toast);window.__toast=setTimeout(()=>e.classList.remove('show'),2400)}document.getElementById('username').addEventListener('keydown',e=>{if(e.key==='Enter')findUser()});renderProducts();
 </script></body></html>
