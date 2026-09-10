@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a0d">
+  <title>Shine Store — Premium Robux Store</title>
+  <meta name="description" content="Shine Store — tempat beli Robux dengan proses cepat, aman, dan terpercaya.">
+  <style>
+    :root{
+      --bg:#07070a; --panel:#101015; --panel2:#15151c; --line:rgba(255,255,255,.09);
+      --text:#f7f7fa; --muted:#9999a8; --gold:#d9b56d; --gold2:#f4d99a;
+      --green:#55d99b; --red:#ff7070; --shadow:0 25px 80px rgba(0,0,0,.42);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 80% 0%,rgba(217,181,109,.12),transparent 30%),
+        radial-gradient(circle at 10% 30%,rgba(120,100,255,.07),transparent 28%),var(--bg);
+      color:var(--text);min-height:100vh;overflow-x:hidden;
+    }
+    a{text-decoration:none;color:inherit}
+    .wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+    .topbar{border-bottom:1px solid var(--line);background:rgba(7,7,10,.72);backdrop-filter:blur(18px);position:sticky;top:0;z-index:20}
+    nav{height:74px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.5px}
+    .logo{width:37px;height:37px;border-radius:12px;display:grid;place-items:center;
+      background:linear-gradient(145deg,#f5dfa9,#a87a2d);color:#17130b;font-weight:950;
+      box-shadow:0 8px 30px rgba(217,181,109,.18)}
+    .brand span{font-size:19px}.brand small{color:var(--gold);font-size:9px;display:block;letter-spacing:2px;margin-top:-2px}
+    .navlinks{display:flex;gap:26px;color:#aaaab6;font-size:13px}.navlinks a:hover{color:white}
+    .hero{padding:92px 0 58px;position:relative}
+    .hero:after{content:"";position:absolute;width:420px;height:420px;border:1px solid rgba(217,181,109,.09);border-radius:50%;right:-180px;top:30px;pointer-events:none}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(217,181,109,.2);background:rgba(217,181,109,.06);
+      color:var(--gold2);padding:8px 12px;border-radius:99px;font-size:11px;font-weight:700;letter-spacing:.8px}
+    .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+    h1{font-size:clamp(43px,7vw,78px);line-height:.98;letter-spacing:-4px;max-width:800px;margin:22px 0 20px}
+    h1 em{font-style:normal;background:linear-gradient(100deg,#fff 15%,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .hero p{max-width:600px;color:var(--muted);line-height:1.75;font-size:15px}
+    .hero-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+    .btn{border:1px solid var(--line);padding:13px 18px;border-radius:13px;font-size:13px;font-weight:750;display:inline-flex;align-items:center;gap:8px;transition:.2s}
+    .btn:hover{transform:translateY(-2px);border-color:rgba(217,181,109,.35)}
+    .btn.primary{background:linear-gradient(135deg,#ecd08e,#b98b3e);color:#17130b;border:none;box-shadow:0 12px 35px rgba(217,181,109,.15)}
+    .trust{display:flex;gap:25px;margin-top:35px;flex-wrap:wrap;color:#777783;font-size:11px}
+    .trust strong{color:#ddd;font-size:12px}
+    section{padding:48px 0}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px;gap:15px}
+    .kicker{color:var(--gold);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+    h2{font-size:29px;letter-spacing:-1.3px}.section-head p{font-size:12px;color:var(--muted);text-align:right}
+    .products{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018));border:1px solid var(--line);
+      border-radius:22px;padding:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+    .card:before{content:"";position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(217,181,109,.07);filter:blur(20px);right:-70px;top:-70px}
+    .card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+    .robux-icon{width:45px;height:45px;border-radius:14px;background:rgba(255,255,255,.06);display:grid;place-items:center;font-size:22px}
+    .status{font-size:10px;padding:6px 9px;border-radius:99px;font-weight:800}
+    .available{background:rgba(85,217,155,.1);color:var(--green)}.unavailable{background:rgba(255,112,112,.1);color:var(--red)}
+    .card h3{font-size:22px;margin-bottom:5px}.card .desc{font-size:12px;color:var(--muted);line-height:1.6;min-height:38px}
+    .price{font-size:22px;font-weight:850;margin:19px 0}.price span{font-size:11px;color:#777;font-weight:500}
+    .order{width:100%;justify-content:center}
+    .disabled{opacity:.45;pointer-events:none}
+    .custom-card{
+      margin-top:14px;padding:20px 22px;border:1px solid rgba(217,181,109,.2);
+      border-radius:22px;background:linear-gradient(145deg,rgba(217,181,109,.08),rgba(255,255,255,.02));
+      display:flex;align-items:center;justify-content:space-between;gap:18px;
+    }
+    .custom-left{display:flex;align-items:center;gap:14px}
+    .custom-left h3{font-size:17px;margin-bottom:4px}
+    .custom-left p{font-size:11px;color:var(--muted)}
+    .custom-price{margin-top:10px;font-size:12px;color:var(--gold2)}
+    .amount-wrap{position:relative}
+    .amount-wrap input{padding-right:80px;font-size:17px;font-weight:700}
+    .amount-suffix{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#888;font-size:12px;font-weight:700}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .feature{padding:21px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.025)}
+    .feature b{display:block;margin:11px 0 6px;font-size:14px}.feature p{font-size:11px;color:var(--muted);line-height:1.65}
+    .icon{font-size:19px;color:var(--gold)}
+    .how{counter-reset:step;display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+    .step{position:relative}.step:before{counter-increment:step;content:"0" counter(step);color:var(--gold);font-size:11px;font-weight:900;letter-spacing:1px}
+    .step h3{font-size:15px;margin:10px 0 6px}.step p{font-size:11px;color:var(--muted);line-height:1.7}
+    footer{border-top:1px solid var(--line);margin-top:50px;padding:28px 0;color:#70707b;font-size:11px}
+    .footerin{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}.gold{color:var(--gold)}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(10px);display:none;place-items:center;padding:18px;z-index:50}
+    .modal.show{display:grid}.modalbox{width:min(470px,100%);background:#111116;border:1px solid var(--line);border-radius:25px;padding:25px;box-shadow:0 30px 100px #000}
+    .modalhead{display:flex;justify-content:space-between;gap:20px}.close{background:none;border:0;color:#888;font-size:25px;cursor:pointer}
+    .modalbox h3{font-size:24px;margin:20px 0 7px}.modalbox p{color:var(--muted);font-size:12px;line-height:1.7}
+    .summary{margin:18px 0;padding:15px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.025)}
+    .summary div{display:flex;justify-content:space-between;padding:5px 0;font-size:12px}.summary div:last-child{border-top:1px solid var(--line);margin-top:6px;padding-top:11px;font-weight:800}
+    label{display:block;color:#aaa;font-size:11px;margin:14px 0 7px}input{width:100%;background:#0b0b0f;border:1px solid var(--line);outline:none;color:white;padding:12px;border-radius:11px}
+    input:focus{border-color:rgba(217,181,109,.5)}.note{font-size:10px!important;margin-top:12px}
+    @media(max-width:800px){.navlinks{display:none}.products,.features,.how{grid-template-columns:1fr}.hero{padding-top:65px}h1{letter-spacing:-2.5px}.section-head{align-items:start;flex-direction:column}.section-head p{text-align:left}.card{padding:20px}.custom-card{flex-direction:column;align-items:stretch}.custom-card .btn{justify-content:center}}
+  </style>
+</head>
+<body>
+<header class="topbar">
+  <nav class="wrap">
+    <a class="brand" href="#">
+      <div class="logo">S</div><div>SHINE <small>STORE</small></div>
+    </a>
+    <div class="navlinks"><a href="#produk">Produk</a><a href="#cara">Cara Order</a><a href="#keunggulan">Keunggulan</a></div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="eyebrow"><i class="dot"></i> STORE ROBUX PREMIUM</div>
+    <h1>Top up Robux dengan <em>lebih tenang.</em></h1>
+    <p>Shine Store hadir dengan pengalaman order yang simpel, cepat, dan transparan. Pilih produk, cek detailnya, lalu lanjutkan pesanan langsung bersama admin melalui WhatsApp.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#produk">Lihat Produk <span>→</span></a>
+      <a class="btn" id="waHero" href="#" target="_blank">Chat Admin ↗</a>
+    </div>
+    <div class="trust">
+      <span>✦ <strong>Fast Response</strong> Admin</span>
+      <span>✦ <strong>Order via WhatsApp</strong></span>
+      <span>✦ <strong>Stock Real-time</strong></span>
+    </div>
+  </section>
+
+  <section id="produk" class="wrap">
+    <div class="section-head">
+      <div><div class="kicker">Catalog</div><h2>Pilih Robux kamu.</h2></div>
+      <p>Status produk dibuat sederhana.<br>Admin tinggal mengubahnya saat stock berubah.</p>
+    </div>
+    <div class="products" id="productGrid"></div>
+
+    <div class="custom-card">
+      <div class="custom-left">
+        <div class="robux-icon">✦</div>
+        <div>
+          <h3>Bebas Pilih Robux</h3>
+          <p>Pilih jumlah sendiri, mulai 1 sampai 100 Robux.</p>
+        </div>
+      </div>
+      <button class="btn primary" onclick="openCustomModal()">Pilih Jumlah →</button>
+    </div>
+  </section>
+
+  <section id="keunggulan" class="wrap">
+    <div class="section-head"><div><div class="kicker">Why Shine</div><h2>Simple. Premium. Reliable.</h2></div></div>
+    <div class="features">
+      <div class="feature"><div class="icon">◈</div><b>Proses langsung</b><p>Pesanan diteruskan ke WhatsApp admin sehingga komunikasi dan konfirmasi terasa lebih personal.</p></div>
+      <div class="feature"><div class="icon">✦</div><b>Tampilan transparan</b><p>Setiap produk menampilkan status tersedia atau tidak tersedia agar customer tidak perlu menebak.</p></div>
+      <div class="feature"><div class="icon">⌁</div><b>Invoice otomatis</b><p>Detail produk dan data customer dirangkum ke pesan WhatsApp sebagai invoice untuk memudahkan pengecekan.</p></div>
+    </div>
+  </section>
+
+  <section id="cara" class="wrap">
+    <div class="section-head"><div><div class="kicker">How It Works</div><h2>Order dalam 3 langkah.</h2></div></div>
+    <div class="how">
+      <div class="step"><h3>Pilih produk</h3><p>Buka katalog dan pilih nominal Robux yang ingin kamu pesan.</p></div>
+      <div class="step"><h3>Isi username</h3><p>Masukkan username Roblox kamu agar admin dapat memproses pesanan dengan tepat.</p></div>
+      <div class="step"><h3>Lanjut WhatsApp</h3><p>Invoice dibuat otomatis dan kamu langsung diarahkan ke WhatsApp admin untuk konfirmasi.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap footerin"><span>© 2026 <span class="gold">Shine Store</span>. All rights reserved.</span><span>Robux • Fast • Simple • Premium</span></div></footer>
+
+<div class="modal" id="modal">
+  <div class="modalbox">
+    <div class="modalhead"><span class="kicker">Order Detail</span><button class="close" onclick="closeModal()">×</button></div>
+    <h3 id="modalTitle">Robux</h3><p id="modalDesc"></p>
+    <div class="summary">
+      <div><span>Produk</span><b id="sumProduct"></b></div>
+      <div id="customAmountRow" style="display:none"><span>Jumlah</span><b id="sumAmount"></b></div>
+      <div><span>Harga</span><b id="sumPrice"></b></div>
+    </div>
+    <div id="customAmountField" style="display:none">
+      <label for="customAmount">Jumlah Robux</label>
+      <div class="amount-wrap">
+        <input id="customAmount" type="number" min="1" max="100" step="1" value="1" placeholder="Contoh: 250">
+        <span class="amount-suffix">Robux</span>
+      </div>
+      <p class="note">Minimal 1 Robux, maksimal 100 Robux, kelipatan 1.</p>
+    </div>
+    <label for="username">Username Roblox</label>
+    <input id="username" type="text" placeholder="Masukkan username Roblox">
+    <label for="phone">Nomor WhatsApp kamu (opsional)</label>
+    <input id="phone" type="text" placeholder="Contoh: 08xxxxxxxxxx">
+    <button class="btn primary order" onclick="sendOrder()" style="margin-top:16px">Pesan Sekarang via WhatsApp ↗</button>
+    <p class="note">Dengan melanjutkan, detail pesanan akan dikirim ke WhatsApp admin untuk proses manual.</p>
+  </div>
+</div>
+
+<script>
+/* =========================
+   SHINE STORE — SETTING MUDAH
+   =========================
+   1. Ganti ADMIN_WA dengan nomor WhatsApp admin.
+      Format internasional tanpa +, contoh: 6281234567890
+   2. Edit daftar PRODUCTS di bawah.
+   3. Ubah available: true/false untuk status stock.
+*/
+const ADMIN_WA = "6285894428443";
+
+// =========================
+// HARGA UTAMA — EDIT DI SINI
+// Contoh: 200 = Rp200 untuk 1 Robux
+// =========================
+const HARGA_PER_ROBUX = 200;
+
+const PRODUCTS = [
+  {id:1, robux:80, desc:"Nominal kecil untuk kebutuhan cepat.", available:true},
+  {id:2, robux:400, desc:"Pilihan favorit untuk pemakaian harian.", available:true},
+  {id:3, robux:800, desc:"Lebih banyak Robux, lebih hemat.", available:false},
+  {id:4, robux:1700, desc:"Untuk kebutuhan Robux yang lebih besar.", available:false},
+  {id:5, robux:4500, desc:"Paket besar dengan value terbaik.", available:false},
+  {id:6, robux:10000, desc:"Nominal premium untuk kebutuhan besar.", available:false}
+];
+
+function formatRupiah(number){
+  return "Rp " + Number(number).toLocaleString("id-ID");
+}
+
+function getProductPrice(robux){
+  return robux * HARGA_PER_ROBUX;
+}
+
+let selectedProduct = null;
+
+function renderProducts(){
+  const grid = document.getElementById("productGrid");
+  grid.innerHTML = PRODUCTS.map(p => `
+    <article class="card">
+      <div class="card-top">
+        <div class="robux-icon">◆</div>
+        <span class="status ${p.available ? "available":"unavailable"}">${p.available ? "● Tersedia":"● Tidak Tersedia"}</span>
+      </div>
+      <h3>${p.robux.toLocaleString("id-ID")} Robux</h3>
+      <p class="desc">${p.desc}</p>
+      <div class="price">${formatRupiah(getProductPrice(p.robux))} <span>/ order</span></div>
+      <button class="btn primary order ${p.available ? "":"disabled"}" onclick='openModal(${p.id})'>
+        ${p.available ? "Pesan Sekarang →":"Stock Habis"}
+      </button>
+    </article>
+  `).join("");
+}
+
+function resetModalFields(){
+  document.getElementById("customAmountField").style.display = "none";
+  document.getElementById("customAmountRow").style.display = "none";
+  document.getElementById("customAmount").value = 10;
+}
+
+function openModal(id){
+  selectedProduct = PRODUCTS.find(p => p.id === id);
+  if(!selectedProduct || !selectedProduct.available) return;
+
+  resetModalFields();
+  document.getElementById("modalTitle").textContent = `${selectedProduct.robux.toLocaleString("id-ID")} Robux`;
+  document.getElementById("modalDesc").textContent = selectedProduct.desc;
+  document.getElementById("sumProduct").textContent = `${selectedProduct.robux.toLocaleString("id-ID")} Robux`;
+  document.getElementById("sumPrice").textContent = formatRupiah(getProductPrice(selectedProduct.robux));
+  document.getElementById("username").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("modal").classList.add("show");
+  setTimeout(()=>document.getElementById("username").focus(),100);
+}
+
+function openCustomModal(){
+  selectedProduct = {id:"custom", name:"Bebas Pilih Robux", desc:"Jumlah Robux pilihan customer.", custom:true, available:true};
+
+  resetModalFields();
+  document.getElementById("customAmountField").style.display = "block";
+  document.getElementById("customAmountRow").style.display = "flex";
+  document.getElementById("modalTitle").textContent = "Bebas Pilih Robux";
+  document.getElementById("modalDesc").textContent = `Harga ${formatRupiah(HARGA_PER_ROBUX)} per Robux.`;
+  updateCustomPrice();
+  document.getElementById("username").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("modal").classList.add("show");
+  setTimeout(()=>document.getElementById("customAmount").focus(),100);
+}
+
+function updateCustomPrice(){
+  const amount = Number(document.getElementById("customAmount").value) || 0;
+  document.getElementById("sumProduct").textContent = "Bebas Pilih Robux";
+  document.getElementById("sumAmount").textContent = amount ? `${amount.toLocaleString("id-ID")} Robux` : "-";
+  document.getElementById("sumPrice").textContent = amount ? formatRupiah(getProductPrice(amount)) : "-";
+}
+
+document.getElementById("customAmount").addEventListener("input", updateCustomPrice);
+
+function closeModal(){document.getElementById("modal").classList.remove("show")}
+document.getElementById("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeModal()});
+
+function sendOrder(){
+  if(!selectedProduct) return;
+
+  const username = document.getElementById("username").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+
+  if(!username){
+    alert("Username Roblox wajib diisi.");
+    return;
+  }
+
+  let orderName, orderPrice, orderAmount = "";
+
+  if(selectedProduct.custom){
+    const amount = Number(document.getElementById("customAmount").value);
+
+    if(!Number.isInteger(amount) || amount < 1 || amount > 100 || amount % 1 !== 0){
+      alert("Jumlah Robux harus 1–100 dan kelipatan 1.");
+      return;
+    }
+
+    orderAmount = `${amount.toLocaleString("id-ID")} Robux`;
+    orderName = "Bebas Pilih Robux";
+    orderPrice = formatRupiah(getProductPrice(amount));
+  }else{
+    orderAmount = `${selectedProduct.robux.toLocaleString("id-ID")} Robux`;
+    orderName = orderAmount;
+    orderPrice = formatRupiah(getProductPrice(selectedProduct.robux));
+  }
+
+  const now = new Date();
+
+  const tanggal = now.toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric"
+  });
+
+  const waktu = now.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  });
+
+  const invoice = `✨ *SHINE STORE*
+━━━━━━━━━━━━━━━━━━
+
+🧾 *INVOICE PESANAN*
+
+📅 *Tanggal* : ${tanggal}
+⏰ *Waktu* : ${waktu} WIB
+
+📦 *Detail Pesanan*
+• Produk : ${orderName}
+• Jumlah : ${orderAmount}
+• Harga : ${orderPrice}
+• Harga/Robux : ${formatRupiah(HARGA_PER_ROBUX)}
+• Username Roblox : ${username}
+
+📱 *WhatsApp Customer*
+${phone || "-"}
+
+━━━━━━━━━━━━━━━━━━
+⏳ *Status : Menunggu Konfirmasi*
+
+Mohon konfirmasi pesanan saya.
+
+Terima kasih telah memilih
+✨ *SHINE STORE*
+━━━━━━━━━━━━━━━━━━`;
+
+  const waURL = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent(invoice)}`;
+  window.open(waURL, "_blank");
+}
+
+document.getElementById("waHero").href = `https://wa.me/${ADMIN_WA}?text=${encodeURIComponent("Halo Shine Store, saya ingin bertanya mengenai produk Robux.")}`;
+renderProducts();
+</script>
+</body>
+</html>
