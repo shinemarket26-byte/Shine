@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#08090c">
+<title>Shine Store — COD HP Checker</title>
+
+<style>
+:root{
+  --bg:#08090c;
+  --card:#111318;
+  --card2:#171a21;
+  --border:#292e38;
+  --text:#f5f7fa;
+  --muted:#9299a6;
+  --green:#20c997;
+  --red:#ff5263;
+  --yellow:#ffc857;
+  --blue:#5b8cff;
+}
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at top,#17202a 0,#08090c 38%);
+  color:var(--text);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+button,input,select,textarea{
+  font:inherit;
+}
+
+.container{
+  width:min(900px,94%);
+  margin:auto;
+  padding:20px 0 60px;
+}
+
+.header{
+  text-align:center;
+  padding:15px 0 25px;
+}
+
+.logo{
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:2px;
+  color:var(--green);
+}
+
+.header h1{
+  margin:8px 0 5px;
+  font-size:30px;
+}
+
+.header p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.card{
+  background:rgba(17,19,24,.94);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:15px;
+  box-shadow:0 10px 35px rgba(0,0,0,.18);
+}
+
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:15px;
+}
+
+.section-title h2{
+  margin:0;
+  font-size:17px;
+}
+
+.badge{
+  font-size:10px;
+  padding:4px 7px;
+  border-radius:999px;
+  background:#202631;
+  color:#aeb7c5;
+}
+
+.os-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.os-btn{
+  min-height:125px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:var(--card2);
+  color:var(--text);
+  cursor:pointer;
+  transition:.2s;
+}
+
+.os-btn:hover{
+  transform:translateY(-2px);
+  border-color:#3d4655;
+}
+
+.os-btn .icon{
+  font-size:38px;
+  display:block;
+  margin-bottom:8px;
+}
+
+.os-btn strong{
+  font-size:17px;
+}
+
+.os-btn small{
+  display:block;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.os-btn.active{
+  border-color:var(--green);
+  box-shadow:0 0 0 1px var(--green),0 0 25px rgba(32,201,151,.12);
+}
+
+.hidden{
+  display:none!important;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  background:#0b0d11;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;
+  color:var(--text);
+  outline:none;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  border-color:var(--blue);
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.category{
+  margin-bottom:12px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  overflow:hidden;
+  background:#0e1015;
+}
+
+.category-head{
+  padding:14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  background:#151820;
+}
+
+.category-head strong{
+  font-size:14px;
+}
+
+.category-head span{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.items{
+  padding:8px;
+}
+
+.check-item{
+  padding:12px 8px;
+  border-bottom:1px solid #20242c;
+}
+
+.check-item:last-child{
+  border-bottom:0;
+}
+
+.check-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.check-name{
+  font-weight:650;
+  font-size:14px;
+}
+
+.check-desc{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+.actions{
+  display:flex;
+  gap:7px;
+  flex-shrink:0;
+}
+
+.status-btn{
+  border:1px solid var(--border);
+  background:#181c24;
+  color:#c8ced8;
+  padding:8px 10px;
+  border-radius:9px;
+  cursor:pointer;
+  font-size:11px;
+  font-weight:800;
+}
+
+.status-btn.ok.active{
+  background:rgba(32,201,151,.13);
+  border-color:var(--green);
+  color:var(--green);
+}
+
+.status-btn.bad.active{
+  background:rgba(255,82,99,.12);
+  border-color:var(--red);
+  color:var(--red);
+}
+
+.minus-box{
+  display:none;
+  margin-top:9px;
+  padding:10px;
+  background:#151820;
+  border:1px solid #303641;
+  border-radius:10px;
+}
+
+.minus-box.show{
+  display:block;
+}
+
+.minus-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:8px;
+}
+
+.minus-box input{
+  width:100%;
+  background:#090b0f;
+  border:1px solid var(--border);
+  color:var(--text);
+  padding:9px;
+  border-radius:8px;
+  outline:none;
+}
+
+.summary{
+  position:sticky;
+  bottom:10px;
+  z-index:5;
+  background:rgba(13,15,20,.96);
+  backdrop-filter:blur(15px);
+  border:1px solid #343a46;
+  box-shadow:0 12px 40px rgba(0,0,0,.45);
+}
+
+.score{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+
+.score-box{
+  background:#171a21;
+  border-radius:12px;
+  padding:12px;
+  text-align:center;
+}
+
+.score-box small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.score-box strong{
+  display:block;
+  font-size:21px;
+  margin-top:4px;
+}
+
+.grade{
+  margin:15px 0;
+  text-align:center;
+  border-radius:15px;
+  padding:15px;
+  background:#171a21;
+}
+
+.grade-label{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.grade-value{
+  font-size:48px;
+  font-weight:900;
+  line-height:1;
+  margin:6px 0;
+}
+
+.grade-text{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.money-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.money{
+  padding:12px;
+  background:#171a21;
+  border-radius:11px;
+}
+
+.money span{
+  display:block;
+  font-size:10px;
+  color:var(--muted);
+}
+
+.money strong{
+  display:block;
+  margin-top:4px;
+  font-size:15px;
+}
+
+.decision{
+  margin-top:12px;
+  padding:15px;
+  border-radius:13px;
+  text-align:center;
+  font-weight:900;
+  font-size:18px;
+  border:1px solid var(--border);
+}
+
+.decision.take{
+  background:rgba(32,201,151,.12);
+  border-color:var(--green);
+  color:var(--green);
+}
+
+.decision.negotiation{
+  background:rgba(255,200,87,.1);
+  border-color:var(--yellow);
+  color:var(--yellow);
+}
+
+.decision.reject{
+  background:rgba(255,82,99,.1);
+  border-color:var(--red);
+  color:var(--red);
+}
+
+.redflag{
+  margin-top:10px;
+  padding:11px;
+  border-radius:10px;
+  background:rgba(255,82,99,.09);
+  border:1px solid rgba(255,82,99,.4);
+  color:#ff8b96;
+  font-size:12px;
+}
+
+.buttons{
+  display:flex;
+  gap:10px;
+  margin-top:14px;
+}
+
+.main-btn{
+  flex:1;
+  border:0;
+  border-radius:11px;
+  padding:13px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.reset{
+  background:#242a34;
+  color:white;
+}
+
+.back{
+  background:#202631;
+  color:#cdd3dd;
+}
+
+@media(max-width:600px){
+  .container{
+    width:94%;
+    padding-top:10px;
+  }
+
+  .header h1{
+    font-size:25px;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .os-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .check-top{
+    align-items:flex-start;
+  }
+
+  .actions{
+    flex-direction:column;
+  }
+
+  .status-btn{
+    min-width:75px;
+  }
+
+  .minus-grid{
+    grid-template-columns:1fr;
+  }
+
+  .money-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header class="header">
+  <div class="logo">SHINE STORE</div>
+  <h1>COD HP CHECKER</h1>
+  <p>Alat bantu pengecekan HP second — Android & iPhone</p>
+</header>
+
+<!-- OS SELECT -->
+<section class="card" id="osSection">
+  <div class="section-title">
+    <h2>1. Pilih Platform</h2>
+  </div>
+
+  <div class="os-grid">
+    <button class="os-btn" id="iosBtn" onclick="selectOS('ios')">
+      <span class="icon">🍎</span>
+      <strong>iPhone / iOS</strong>
+      <small>Checklist khusus Apple</small>
+    </button>
+
+    <button class="os-btn" id="androidBtn" onclick="selectOS('android')">
+      <span class="icon">🤖</span>
+      <strong>Android</strong>
+      <small>Checklist Android lengkap</small>
+    </button>
+  </div>
+</section>
+
+<div id="mainApp" class="hidden">
+
+<!-- DEVICE DATA -->
+<section class="card">
+  <div class="section-title">
+    <h2>2. Data HP</h2>
+    <span class="badge">Tidak disimpan</span>
+  </div>
+
+  <div class="form-grid">
+
+    <div class="field">
+      <label>Nama Pemilik</label>
+      <input id="owner" placeholder="Nama penjual">
+    </div>
+
+    <div class="field">
+      <label>Nomor HP Pemilik</label>
+      <input id="ownerPhone" placeholder="08xxxxxxxxxx">
+    </div>
+
+    <div class="field">
+      <label>Brand</label>
+      <input id="brand" placeholder="Apple / Samsung / Xiaomi...">
+    </div>
+
+    <div class="field">
+      <label>Model / Tipe</label>
+      <input id="model" placeholder="Contoh: iPhone 13 Pro">
+    </div>
+
+    <div class="field">
+      <label>Storage</label>
+      <input id="storage" placeholder="128GB">
+    </div>
+
+    <div class="field">
+      <label>RAM</label>
+      <input id="ram" placeholder="6GB / 8GB / 12GB">
+    </div>
+
+    <div class="field">
+      <label>Warna</label>
+      <input id="color" placeholder="Black / Blue / dll">
+    </div>
+
+    <div class="field">
+      <label>IMEI</label>
+      <input id="imei" placeholder="Cek dari HP">
+    </div>
+
+    <div class="field">
+      <label>Harga Diminta Penjual</label>
+      <input id="sellerPrice" type="number" placeholder="Rp">
+    </div>
+
+    <div class="field">
+      <label>Harga Pasaran Second</label>
+      <input id="marketPrice" type="number" placeholder="Rp">
+    </div>
+
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section class="card">
+
+  <div class="section-title">
+    <h2>3. Checklist Pemeriksaan</h2>
+    <span class="badge">Klik NORMAL / MINUS</span>
+  </div>
+
+  <div id="checklist"></div>
+
+</section>
+
+<!-- SUMMARY -->
+<section class="card summary">
+
+  <div class="section-title">
+    <h2>HASIL COD</h2>
+    <span class="badge" id="platformBadge">—</span>
+  </div>
+
+  <div class="score">
+
+    <div class="score-box">
+      <small>SUDAH CEK</small>
+      <strong id="checked">0/0</strong>
+    </div>
+
+    <div class="score-box">
+      <small>NORMAL</small>
+      <strong id="okCount">0</strong>
+    </div>
+
+    <div class="score-box">
+      <small>MINUS</small>
+      <strong id="minusCount">0</strong>
+    </div>
+
+  </div>
+
+  <div class="grade">
+    <div class="grade-label">GRADE HP</div>
+    <div class="grade-value" id="grade">—</div>
+    <div class="grade-text" id="gradeText">Belum ada pemeriksaan</div>
+  </div>
+
+  <div class="money-grid">
+
+    <div class="money">
+      <span>Harga Penjual</span>
+      <strong id="outSeller">Rp0</strong>
+    </div>
+
+    <div class="money">
+      <span>Total Potongan Nego</span>
+      <strong id="outNego">Rp0</strong>
+    </div>
+
+    <div class="money">
+      <span>Estimasi Service</span>
+      <strong id="outService">Rp0</strong>
+    </div>
+
+    <div class="money">
+      <span>Harga Setelah Nego</span>
+      <strong id="outBuy">Rp0</strong>
+    </div>
+
+    <div class="money">
+      <span>Modal Efektif</span>
+      <strong id="outModal">Rp0</strong>
+    </div>
+
+    <div class="money">
+      <span>Estimasi Untung</span>
+      <strong id="outProfit">Rp0</strong>
+    </div>
+
+    <div class="money">
+      <span>Margin</span>
+      <strong id="outMargin">0%</strong>
+    </div>
+
+    <div class="money">
+      <span>Harga Beli Maks Aman</span>
+      <strong id="outMax">Rp0</strong>
+    </div>
+
+  </div>
+
+  <div id="redFlag" class="redflag hidden"></div>
+
+  <div id="decision" class="decision">
+    BELUM ADA KEPUTUSAN
+  </div>
+
+  <div class="buttons">
+    <button class="main-btn back" onclick="backToOS()">
+      GANTI OS
+    </button>
+
+    <button class="main-btn reset" onclick="resetAll()">
+      RESET COD
+    </button>
+  </div>
+
+</section>
+
+</div>
+</div>
+
+<script>
+
+const DATA = {
+
+ios: {
+
+"BODY / FISIK":[
+["Frame / Bodi","Penyok, bengkok, retak"],
+["Back Glass","Retak / pecah / bekas ganti"],
+["Kaca Kamera","Retak / pecah"],
+["Tombol Power","Klik dan respons"],
+["Tombol Volume","Naik/turun normal"],
+["Silent Switch / Action Button","Tes fungsi"],
+["SIM Tray","Normal"],
+["MagSafe","Jika tersedia"]
+],
+
+"DISPLAY":[
+["LCD / OLED","Warna normal"],
+["Touchscreen","Tes seluruh area"],
+["Dead Pixel","Cek layar putih/hitam"],
+["Burn-in","Cek bayangan layar"],
+["Brightness","Terang/redup normal"],
+["True Tone","Pastikan berfungsi"],
+["ProMotion","Jika model mendukung"]
+],
+
+"FACE ID & SENSOR":[
+["Face ID","Unlock normal"],
+["Proximity Sensor","Saat telepon"],
+["Ambient Light Sensor","Brightness otomatis"],
+["Gyroscope","Tes rotasi"],
+["Accelerometer","Tes gerak"],
+["Compass","Tes arah"]
+],
+
+"KAMERA":[
+["Kamera Utama","Foto normal"],
+["Ultra Wide","Jika tersedia"],
+["Telephoto","Jika tersedia"],
+["Kamera Depan","Foto/video"],
+["Flash","Nyala"],
+["Autofocus","Fokus normal"],
+["OIS","Stabilisasi"],
+["Video","Rekam & playback"]
+],
+
+"AUDIO":[
+["Speaker Bawah","Suara jelas"],
+["Earpiece","Suara telepon"],
+["Mic Utama","Rekam suara"],
+["Mic Kamera","Tes video"],
+["Vibration","Getar normal"]
+],
+
+"KONEKSI":[
+["SIM","Kartu terbaca"],
+["Signal","Sinyal normal"],
+["Wi-Fi","Connect"],
+["Bluetooth","Connect"],
+["GPS","Lokasi terkunci"],
+["NFC","Jika tersedia"],
+["4G / 5G","Data seluler"]
+],
+
+"CHARGING":[
+["Lightning / USB-C","Port normal"],
+["Charging","Mengisi"],
+["Fast Charging","Jika didukung"],
+["Wireless Charging","Jika didukung"],
+["MagSafe Charging","Jika didukung"]
+],
+
+"SOFTWARE & KEAMANAN":[
+["IMEI","Sesuai perangkat"],
+["iCloud","Tidak terkunci"],
+["Activation Lock","OFF / aman"],
+["Find My iPhone","Bisa dimatikan"],
+["Battery Health","Cek persentase"],
+["Parts & Service History","Cek riwayat"],
+["True Tone","Tidak bermasalah"],
+["Factory Reset","Bisa reset"],
+["iOS Update","Normal"]
+],
+
+"INTERNAL":[
+["Bekas Bongkar","Cek seal / baut"],
+["Part Non-Original","Cek warning"],
+["Motherboard","Tidak ada gejala"],
+["Kena Air","Cek indikator/korosi"],
+["Overheat","Tidak panas berlebihan"]
+],
+
+"KELENGKAPAN":[
+["Dus","Ada / tidak"],
+["Charger","Ada / tidak"],
+["Kabel","Ada / tidak"],
+["Nota","Jika ada"],
+["Garansi","Jika ada"]
+]
+
+},
+
+android: {
+
+"BODY / FISIK":[
+["Frame / Bodi","Penyok, bengkok, retak"],
+["Back Cover","Retak / pecah"],
+["Kaca Kamera","Retak / pecah"],
+["Tombol Power","Klik normal"],
+["Tombol Volume","Respons normal"],
+["SIM Tray","Normal"],
+["Stylus / S Pen","Jika tersedia"],
+["Water Seal","Jika relevan"]
+],
+
+"DISPLAY":[
+["LCD / AMOLED","Warna normal"],
+["Touchscreen","Tes seluruh area"],
+["Dead Pixel","Cek layar"],
+["Burn-in","Cek bayangan"],
+["Green Line","Cek garis layar"],
+["Shadow","Cek layar putih"],
+["Brightness","Normal"],
+["Refresh Rate","Jika tersedia"]
+],
+
+"BIOMETRIC & SENSOR":[
+["Fingerprint","Unlock normal"],
+["Face Unlock","Jika tersedia"],
+["Proximity Sensor","Tes"],
+["Ambient Light","Auto brightness"],
+["Gyroscope","Tes rotasi"],
+["Accelerometer","Tes gerak"],
+["Compass","Tes arah"],
+["Haptic / Vibration","Normal"]
+],
+
+"KAMERA":[
+["Kamera Utama","Foto normal"],
+["Ultra Wide","Jika tersedia"],
+["Telephoto","Jika tersedia"],
+["Macro","Jika tersedia"],
+["Kamera Depan","Foto/video"],
+["Flash","Nyala"],
+["Autofocus","Fokus normal"],
+["OIS","Jika tersedia"],
+["Video","Rekam normal"]
+],
+
+"AUDIO":[
+["Speaker","Suara jelas"],
+["Earpiece","Suara telepon"],
+["Mic Utama","Rekam suara"],
+["Mic Kamera","Tes video"],
+["Noise Cancellation","Jika tersedia"],
+["Vibration","Normal"]
+],
+
+"KONEKSI":[
+["SIM","Terbaca"],
+["Signal","Sinyal normal"],
+["Wi-Fi","Connect"],
+["Bluetooth","Connect"],
+["GPS","Lokasi"],
+["NFC","Jika tersedia"],
+["4G / 5G","Data seluler"]
+],
+
+"CHARGING":[
+["USB-C","Port normal"],
+["Charging","Mengisi"],
+["Fast Charging","Jika didukung"],
+["Wireless Charging","Jika tersedia"],
+["Reverse Charging","Jika tersedia"]
+],
+
+"SOFTWARE & KEAMANAN":[
+["IMEI","Sesuai perangkat"],
+["Google Account","Tidak terkunci"],
+["FRP Lock","Aman"],
+["Factory Reset","Bisa reset"],
+["OS","Normal"],
+["Storage","Sesuai"],
+["RAM","Sesuai"],
+["Device Protection","Tidak terkunci"],
+["Repair / Part Warning","Cek jika tersedia"]
+],
+
+"INTERNAL":[
+["Bekas Bongkar","Cek baut/seal"],
+["Part Non-Original","Cek"],
+["Motherboard","Tidak ada gejala"],
+["Kena Air","Korosi/indikator"],
+["Overheat","Tidak panas berlebihan"],
+["Battery","Kondisi normal"]
+],
+
+"KELENGKAPAN":[
+["Dus","Ada / tidak"],
+["Charger","Ada / tidak"],
+["Kabel","Ada / tidak"],
+["Nota","Jika ada"],
+["Garansi","Jika ada"]
+]
+
+}
+
+};
+
+let currentOS = null;
+let checks = {};
+let uid = 0;
+
+const money = n =>
+  "Rp" + Number(n || 0).toLocaleString("id-ID");
+
+function selectOS(os){
+
+  currentOS = os;
+  checks = {};
+
+  document.getElementById("iosBtn").classList.toggle("active",os==="ios");
+  document.getElementById("androidBtn").classList.toggle("active",os==="android");
+
+  document.getElementById("mainApp").classList.remove("hidden");
+
+  document.getElementById("platformBadge").textContent =
+    os==="ios" ? "iOS / iPhone" : "ANDROID";
+
+  renderChecklist();
+
+  window.scrollTo({
+    top:document.getElementById("mainApp").offsetTop-10,
+    behavior:"smooth"
+  });
+
+  calculate();
+}
+
+function renderChecklist(){
+
+  const container = document.getElementById("checklist");
+  container.innerHTML = "";
+
+  Object.entries(DATA[currentOS]).forEach(([category,items],catIndex)=>{
+
+    const box = document.createElement("div");
+    box.className="category";
+
+    const head = document.createElement("div");
+    head.className="category-head";
+
+    head.innerHTML =
+      `<strong>${category}</strong>
+       <span>${items.length} pemeriksaan</span>`;
+
+    head.onclick=()=>{
+      const list=box.querySelector(".items");
+      list.classList.toggle("hidden");
+    };
+
+    box.appendChild(head);
+
+    const list=document.createElement("div");
+    list.className="items";
+
+    items.forEach((item,index)=>{
+
+      const id="check_"+(++uid);
+
+      checks[id]={
+        name:item[0],
+        category,
+        status:null,
+        note:"",
+        nego:0,
+        service:0
+      };
+
+      const row=document.createElement("div");
+      row.className="check-item";
+
+      row.innerHTML=`
+        <div class="check-top">
+
+          <div>
+            <div class="check-name">${item[0]}</div>
+            <div class="check-desc">${item[1]}</div>
+          </div>
+
+          <div class="actions">
+
+            <button class="status-btn ok"
+              onclick="setStatus('${id}','ok',this)">
+              ✓ NORMAL
+            </button>
+
+            <button class="status-btn bad"
+              onclick="setStatus('${id}','bad',this)">
+              ✕ MINUS
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="minus-box" id="minus_${id}">
+
+          <div class="minus-grid">
+
+            <input
+              placeholder="Minusnya apa?"
+              oninput="updateNote('${id}',this.value)"
+            >
+
+            <input
+              type="number"
+              placeholder="Potongan nego"
+              oninput="updateNego('${id}',this.value)"
+            >
+
+          </div>
+
+          <div style="margin-top:8px">
+
+            <input
+              type="number"
+              placeholder="Estimasi biaya service"
+              oninput="updateService('${id}',this.value)"
+            >
+
+          </div>
+
+        </div>
+      `;
+
+      list.appendChild(row);
+
+    });
+
+    box.appendChild(list);
+    container.appendChild(box);
+
+  });
+
+}
+
+function setStatus(id,status,button){
+
+  checks[id].status=status;
+
+  const row=button.closest(".check-item");
+
+  row.querySelectorAll(".status-btn")
+    .forEach(b=>b.classList.remove("active"));
+
+  button.classList.add("active");
+
+  const minus=row.querySelector(".minus-box");
+
+  if(status==="bad"){
+    minus.classList.add("show");
+  }else{
+    minus.classList.remove("show");
+  }
+
+  calculate();
+}
+
+function updateNote(id,value){
+  checks[id].note=value;
+}
+
+function updateNego(id,value){
+  checks[id].nego=Number(value)||0;
+  calculate();
+}
+
+function updateService(id,value){
+  checks[id].service=Number(value)||0;
+  calculate();
+}
+
+function calculate(){
+
+  const arr=Object.values(checks);
+
+  const total=arr.length;
+  const checked=arr.filter(x=>x.status!==null).length;
+  const ok=arr.filter(x=>x.status==="ok").length;
+  const minus=arr.filter(x=>x.status==="bad").length;
+
+  document.getElementById("checked").textContent =
+    `${checked}/${total}`;
+
+  document.getElementById("okCount").textContent=ok;
+  document.getElementById("minusCount").textContent=minus;
+
+  const percent=total ? ok/total : 0;
+
+  let grade="—";
+  let gradeText="Belum ada pemeriksaan";
+
+  if(checked>0){
+
+    if(percent>=.90 && minus===0){
+      grade="A";
+      gradeText="Kondisi sangat bagus";
+    }
+    else if(percent>=.70){
+      grade="B";
+      gradeText="Masih layak, perhatikan minus";
+    }
+    else{
+      grade="C";
+      gradeText="Banyak minus — harus nego keras";
+    }
+
+  }
+
+  document.getElementById("grade").textContent=grade;
+  document.getElementById("gradeText").textContent=gradeText;
+
+  const seller=Number(document.getElementById("sellerPrice").value)||0;
+  const market=Number(document.getElementById("marketPrice").value)||0;
+
+  const nego=arr.reduce((s,x)=>s+x.nego,0);
+  const service=arr.reduce((s,x)=>s+x.service,0);
+
+  const buy=Math.max(0,seller-nego);
+  const modal=buy+service;
+  const profit=market-modal;
+  const margin=market ? profit/market*100 : 0;
+
+  const maxBuy=Math.max(
+    0,
+    market*.90-service
+  );
+
+  document.getElementById("outSeller").textContent=money(seller);
+  document.getElementById("outNego").textContent=money(nego);
+  document.getElementById("outService").textContent=money(service);
+  document.getElementById("outBuy").textContent=money(buy);
+  document.getElementById("outModal").textContent=money(modal);
+  document.getElementById("outProfit").textContent=money(profit);
+  document.getElementById("outMargin").textContent=margin.toFixed(1)+"%";
+  document.getElementById("outMax").textContent=money(maxBuy);
+
+  /*
+    RED FLAGS
+    Untuk item keamanan penting, kalau ditandai MINUS,
+    keputusan otomatis tidak boleh AMBIL.
+  */
+
+  const critical=arr.filter(x=>
+    x.status==="bad" &&
+    (
+      x.name==="IMEI" ||
+      x.name==="iCloud" ||
+      x.name==="Activation Lock" ||
+      x.name==="Find My iPhone" ||
+      x.name==="Google Account" ||
+      x.name==="FRP Lock" ||
+      x.name==="Factory Reset"
+    )
+  );
+
+  const flag=document.getElementById("redFlag");
+
+  if(critical.length){
+
+    flag.classList.remove("hidden");
+
+    flag.innerHTML=
+      "⚠️ <strong>RED FLAG:</strong> "+
+      critical.map(x=>x.name).join(", ")+
+      " bermasalah. Jangan ambil sebelum masalah ini benar-benar aman.";
+
+  }else{
+
+    flag.classList.add("hidden");
+    flag.innerHTML="";
+
+  }
+
+  const decision=document.getElementById("decision");
+
+  decision.className="decision";
+
+  if(critical.length){
+
+    decision.textContent="🔴 JANGAN AMBIL";
+    decision.classList.add("reject");
+
+  }
+  else if(checked===total && market>0){
+
+    if(buy>maxBuy){
+
+      decision.textContent="🟡 NEGO LAGI";
+      decision.classList.add("negotiation");
+
+    }
+    else if(profit>0){
+
+      decision.textContent="🟢 AMBIL";
+      decision.classList.add("take");
+
+    }
+    else{
+
+      decision.textContent="🔴 JANGAN AMBIL";
+      decision.classList.add("reject");
+
+    }
+
+  }
+  else if(minus>0){
+
+    decision.textContent="🟡 CEK & NEGO LAGI";
+    decision.classList.add("negotiation");
+
+  }
+  else{
+
+    decision.textContent="BELUM ADA KEPUTUSAN";
+
+  }
+
+}
+
+document.addEventListener("input",e=>{
+
+  if(
+    e.target.id==="sellerPrice" ||
+    e.target.id==="marketPrice"
+  ){
+    calculate();
+  }
+
+});
+
+function backToOS(){
+
+  document.getElementById("mainApp").classList.add("hidden");
+
+  document.getElementById("osSection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+function resetAll(){
+
+  if(!confirm("Reset semua pengecekan COD ini?")) return;
+
+  document.querySelectorAll("input").forEach(input=>{
+    input.value="";
+  });
+
+  currentOS=null;
+  checks={};
+  uid=0;
+
+  document.getElementById("checklist").innerHTML="";
+
+  document.getElementById("mainApp").classList.add("hidden");
+
+  document.getElementById("iosBtn").classList.remove("active");
+  document.getElementById("androidBtn").classList.remove("active");
+
+  document.getElementById("grade").textContent="—";
+  document.getElementById("gradeText").textContent="Belum ada pemeriksaan";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+</script>
+
+</body>
+</html>
